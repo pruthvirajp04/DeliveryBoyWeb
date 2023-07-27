@@ -7136,6 +7136,22 @@ var User_ZMDGJ_ = /** @class */ (function (_super) {
         this.set_ZMDGJ_FakerLeveNum();
     };
     User_ZMDGJ_.set_ZMDGJ_LeveNum = function (levelNum) {
+       //lets add after every 3 levels
+       
+       if((levelNum-1)%3==0)
+       {
+        alert("hello it is multiple of level 3")
+        if (!is_replay_noFill) {
+            sessionStorage.setItem("reward-type","replay-RP");
+            Laya.SoundManager.muted = true;
+            window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+        }else{
+            if(replayInstance != undefined)
+            replayInstance.destroyAd();
+            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj,);
+        } 
+       }
+  
         User_ZMDGJ_._game_ZMDGJ_Data.levelNum = levelNum;
         this.set_ZMDGJ_FakerLeveNum();
     };
