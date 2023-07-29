@@ -2832,6 +2832,11 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
         configurable: true
     });
     Game_ZMDGJ_Mgr.prototype.onAwake = function () {
+        //rewarded ads
+            if(replayInstance == undefined) 
+        replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
+        if(rewardInstance == undefined)
+        rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
         MaiLiang_1.default.Get_ZMDGJ_Mai_ZMDGJ_Liang_ZMDGJ_OpenId(function (res) {
             console.log("GameUI 买量数据上报成功");
             Laya.Browser.window["wx"].onShow(function () {
@@ -7140,6 +7145,13 @@ var User_ZMDGJ_ = /** @class */ (function (_super) {
        
        if((levelNum-1)%3==0)
        {
+        function Game_ZMDGJ_Mgr() {
+            var _this = _super.call(this) || this;
+            _this._curLevel = null;
+            _this._bSceneOpen = false;
+            Game_ZMDGJ_Mgr._instance = _this;
+            return _this;
+        }
         alert("hello it is multiple of level 3")
         if (!is_replay_noFill) {
             sessionStorage.setItem("reward-type","replay-RP");
@@ -7148,7 +7160,7 @@ var User_ZMDGJ_ = /** @class */ (function (_super) {
         }else{
             if(replayInstance != undefined)
             replayInstance.destroyAd();
-            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj,);
+            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj,Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
         } 
        }
   
