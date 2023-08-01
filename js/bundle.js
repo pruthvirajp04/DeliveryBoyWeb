@@ -2891,7 +2891,146 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
             EventMgr_1.default.ins_ZMDGJ_tance.dis_ZMDGJ_patch(EventDef_1.Event_ZMDGJ_Def.App_Close_ZMDGJ_First_ZMDGJ_Loading_ZMDGJ_View);
         });
     };
+
+
     //游戏存档,仅当作示例，实际存档根据实际项目各自实现
+
+    Game_ZMDGJ_Mgr.prototype.rewardedCallbacks = function (obj) {
+        var self = this;
+        obj.adInstance?.registerCallback('onAdLoadSucceed', (data) => {
+            //console.log('onAdLoadSucceeded Rewarded CALLBACK', data);
+            if (obj.adUnitName === rewardObj.adUnitName) {
+                is_rewarded_noFill = false
+            }
+            if (obj.adUnitName === replayObj.adUnitName) {
+                is_replay_noFill = false
+            }
+        });
+        
+        obj.adInstance?.registerCallback('onAdLoadFailed', (data) => {
+            //console.log('onAdLoadFailed Rewarded CALLBACK', data);
+            if (obj.adUnitName === rewardObj.adUnitName) {
+                is_rewarded_noFill = true
+            }
+            if (obj.adUnitName === replayObj.adUnitName) {
+                is_replay_noFill = true
+            }
+    
+    
+        });
+    
+        obj.adInstance?.registerCallback('onAdDisplayed', (data) => {
+            //console.log('onAdDisplayed Rewarded CALLBACK', data);
+    
+    
+        });
+
+        obj.adInstance?.registerCallback('onAdClicked', (data) => {
+            //console.log('onAdClicked Rewarded CALLBACK', data);
+        });
+        
+        obj.adInstance?.registerCallback('onAdClosed', (data) => {
+            Laya.SoundManager.muted = false;
+            //console.log('onAdClosed Rewarded CALLBACK', data);
+
+        if(sessionStorage.getItem("reward-type") == "reward-SL"){
+            sessionStorage.removeItem("reward-type");
+            if(rewardInstance != undefined)
+            rewardInstance.destroyAd();
+            if (obj.adUnitName == rewardObj.adUnitName) {
+                isRewardedAdClosedByUser = true
+            }
+            rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
+            if(!isRewardGranted && isRewardedAdClosedByUser)
+            {  
+                cancelRewardSL(); 
+            }
+            else{ 
+                giveRewardSL();
+            }
+            isRewardGranted = false
+            isRewardedAdClosedByUser = false
+    
+        }
+        if(sessionStorage.getItem("reward-type") == "reward-SH"){
+            sessionStorage.removeItem("reward-type");
+            if(rewardInstance != undefined)
+            rewardInstance.destroyAd();
+            if (obj.adUnitName == rewardObj.adUnitName) {
+                isRewardedAdClosedByUser = true
+            }
+            rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
+            if(!isRewardGranted && isRewardedAdClosedByUser)
+            {  
+                cancelRewardSH();
+            }
+            else{ 
+                giveRewardSH();
+            }
+            isRewardGranted = false
+            isRewardedAdClosedByUser = false
+        }
+        if(sessionStorage.getItem("reward-type") == "reward-CL"){
+            sessionStorage.removeItem("reward-type");
+            if(rewardInstance != undefined)
+            rewardInstance.destroyAd();
+            if (obj.adUnitName == rewardObj.adUnitName) {
+                isRewardedAdClosedByUser = true
+            }
+            rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
+            if(!isRewardGranted && isRewardedAdClosedByUser)
+            {  
+                cancelRewardCL();
+            }
+            else{ 
+                giveRewardCL();
+            }
+            isRewardGranted = false
+            isRewardedAdClosedByUser = false
+    
+        }
+        if(sessionStorage.getItem("reward-type") == "replay-RP"){
+            sessionStorage.removeItem("reward-type");
+            if(replayInstance != undefined)
+            replayInstance.destroyAd();
+            replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
+        }
+        if(sessionStorage.getItem("reward-type") == "replay-RP1"){
+            sessionStorage.removeItem("reward-type");
+            sessionStorage.setItem("doneReplay",1);
+            if(replayInstance != undefined)
+            replayInstance.destroyAd();
+            replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
+        }
+        if(sessionStorage.getItem("reward-type") == "replay-RP2"){
+            sessionStorage.removeItem("reward-type");
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
+            sendCustomAnalyticsEvent("game_replay", {level: level,score:0,highScore:0});
+            sendCustomAnalyticsEvent("game_level", {level: level});
+            if(replayInstance != undefined)
+            replayInstance.destroyAd();
+            replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
+        }
+        if(sessionStorage.getItem("reward-type") == "replay-BK"){
+            sessionStorage.removeItem("reward-type");
+            if(replayInstance != undefined)
+            replayInstance.destroyAd();
+            replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
+        }
+        });
+
+        obj.adInstance?.registerCallback('onRewardsUnlocked', (data) => {
+            //console.log('onRewardsUnlocked Rewarded CALLBACK', data);
+    
+            if (obj.adUnitName === rewardObj.adUnitName) {
+                isRewardGranted = true
+            }
+    
+        });
+
+}
+    
     Game_ZMDGJ_Mgr.prototype.save_ZMDGJ_Game_ZMDGJ_Data = function () {
         HttpUnit_1.default.save_ZMDGJ_Game_ZMDGJ_Data(User_1.default.get_ZMDGJ_Save_ZMDGJ_Data(), function (res) {
             if (res.code == 1) {
@@ -7099,6 +7238,8 @@ var User_ZMDGJ_Game_ZMDGJ_Data = /** @class */ (function () {
     return User_ZMDGJ_Game_ZMDGJ_Data;
 }());
 exports.User_ZMDGJ_Game_ZMDGJ_Data = User_ZMDGJ_Game_ZMDGJ_Data;
+
+
 var User_ZMDGJ_ = /** @class */ (function (_super) {
     __extends(User_ZMDGJ_, _super);
     function User_ZMDGJ_() {
