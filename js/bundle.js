@@ -7293,7 +7293,7 @@ var User_ZMDGJ_ = /** @class */ (function (_super) {
             Game_ZMDGJ_Mgr._instance = _this;
             return _this;
         }
-        alert("hello it is multiple of level 3")
+        // alert("hello it is multiple of level 3")
         if (!is_replay_noFill) {
             sessionStorage.setItem("reward-type","replay-RP");
             Laya.SoundManager.muted = true;
