@@ -3085,6 +3085,7 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
             ViewMgr_1.default.ins_ZMDGJ_tance.open_ZMDGJ_View(ViewMgr_1.View_ZMDGJ_Def.MainView, null, onComplate);
             _this._bSceneOpen = true;
         }));
+        //commented music here for development purpose
         SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
     };
     Game_ZMDGJ_Mgr.prototype.GameOver = function (bWin) {
@@ -8616,6 +8617,7 @@ var AppConfig_1 = require("../../AppConfig");
 var SkinTips = /** @class */ (function (_super) {
     __extends(SkinTips, _super);
     function SkinTips() {
+       
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this._centerZone = null;
         _this._okBtn = null;
@@ -8628,6 +8630,7 @@ var SkinTips = /** @class */ (function (_super) {
         return _this;
     }
     SkinTips.prototype.onAwake = function () {
+       
         this._centerZone = this.View_ZMDGJ_.getChildByName("CenterZone");
         var aspectRatio = Laya.stage.width / Laya.stage.height;
         if (aspectRatio < 0.5) {
@@ -8689,6 +8692,20 @@ var SkinTips = /** @class */ (function (_super) {
         }));
     };
     SkinTips.prototype.onOkBtn = function () {
+        alert("button clicked here")
+        sendCustomAnalyticsEvent("rewarded_ad", {successCB : 'giveRewardSL',failureCB: 'cancelRewardSL'});
+        if (!is_rewarded_noFill) {
+            sessionStorage.setItem("reward-type","reward-SL");
+            Laya.SoundManager.muted = true;
+            window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
+        } 
+        else{
+            if(rewardInstance != undefined)
+            rewardInstance.destroyAd();
+            // rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,Game_ZMDGJ_Mgr.default.prototype.rewardedCallbacks);
+            giveRewardSL();
+        }
+       
         var _this = this;
         if (this._ading)
             return; //看视频中点击无效
@@ -8713,6 +8730,7 @@ var SkinTips = /** @class */ (function (_super) {
         });
     };
     SkinTips.prototype.onSkipBtn = function () {
+        alert("skin rejected")
         if (this._ading)
             return; //看视频中点击无效
         if (!this._bUp) {
