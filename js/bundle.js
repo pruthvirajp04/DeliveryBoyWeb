@@ -8692,7 +8692,7 @@ var SkinTips = /** @class */ (function (_super) {
         }));
     };
     SkinTips.prototype.onOkBtn = function () {
-        alert("button clicked here")
+        // alert("button clicked here")
         sendCustomAnalyticsEvent("rewarded_ad", {successCB : 'giveRewardSL',failureCB: 'cancelRewardSL'});
         if (!is_rewarded_noFill) {
             sessionStorage.setItem("reward-type","reward-SL");
@@ -8730,7 +8730,7 @@ var SkinTips = /** @class */ (function (_super) {
         });
     };
     SkinTips.prototype.onSkipBtn = function () {
-        alert("skin rejected")
+        // alert("skin rejected")
         if (this._ading)
             return; //看视频中点击无效
         if (!this._bUp) {
