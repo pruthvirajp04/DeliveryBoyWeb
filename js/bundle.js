@@ -2583,17 +2583,21 @@ var Main = /** @class */ (function () {
                 Laya.loader.load(resource, Laya.Handler.create(this, function () {
                     self.onLoadResComplate();
                 }), Laya.Handler.create(this, function (res) {
-                    self._loadingView.set_ZMDGJ_Process(res);
+                    progressPrec = res*100;
+                    progressBar(res*100);
                 }));
             }
             else {
                 self.onLoadResComplate();
-            }
+        }
         }
     };
     Main.prototype.onLoadResComplate = function () {
         var _this = this;
         var self = this;
+        progressPrec = 100;
+        progressBar(100);
+        sendCustomAnalyticsEvent("game_load", {});
         this._loadingView.set_ZMDGJ_Process(1);
         if (Laya.Browser.onMiniGame) {
             WXAPI_1.default._ZMDGJ_wxLogin_ZMDGJ_(function (code) {
@@ -3086,9 +3090,17 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
             _this._bSceneOpen = true;
         }));
         //commented music here for development purpose
-        SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
+        // SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
     };
+
     Game_ZMDGJ_Mgr.prototype.GameOver = function (bWin) {
+        if(bWin)
+        {
+            alert("u win ")
+        }
+        else{
+            alert("lose")
+        }
         var _this = this;
         if (!this._bSceneOpen) {
             return;
@@ -3097,6 +3109,7 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
         ViewMgr_1.default.ins_ZMDGJ_tance.open_ZMDGJ_View(gameOverView, { bWin: bWin }, function () {
             ALD_1.default.aldSendOnlySingleReport(ALD_1.ALD_ZMDGJ_Event_ZMDGJ_Def.EnterGameComplateView);
             ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(ViewMgr_1.View_ZMDGJ_Def.InGameView);
+           
             _this._curLevel.DestroySelf();
             _this._bSceneOpen = false;
         });
