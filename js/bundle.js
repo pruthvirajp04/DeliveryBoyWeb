@@ -3077,6 +3077,9 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
         });
     };
     Game_ZMDGJ_Mgr.prototype.EnterGameScene = function (onComplate) {
+        // User_ZMDGJ_.set_ZMDGJ_LeveNum = function (levelNum) {
+        //     alert(levelNum)
+        // }
         var _this = this;
         if (this._bSceneOpen) {
             return;
@@ -3096,10 +3099,13 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
     Game_ZMDGJ_Mgr.prototype.GameOver = function (bWin) {
         if(bWin)
         {
-            alert("u win ")
+            console.log("you win");
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent("level_completed", {level: level});
         }
         else{
-            alert("lose")
+         console.log("you lose");
+
         }
         var _this = this;
         if (!this._bSceneOpen) {
@@ -7307,6 +7313,7 @@ var User_ZMDGJ_ = /** @class */ (function (_super) {
             Game_ZMDGJ_Mgr._instance = _this;
             return _this;
         }
+      
         // alert("hello it is multiple of level 3")
         if (!is_replay_noFill) {
             sessionStorage.setItem("reward-type","replay-RP");
