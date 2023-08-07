@@ -8714,6 +8714,13 @@ var SkinTips = /** @class */ (function (_super) {
     SkinTips.prototype.onOkBtn = function () {
         // alert("button clicked here")
         sendCustomAnalyticsEvent("rewarded_ad", {successCB : 'giveRewardSL',failureCB: 'cancelRewardSL'});
+        function Game_ZMDGJ_Mgr() {
+            var _this = _super.call(this) || this;
+            _this._curLevel = null;
+            _this._bSceneOpen = false;
+            Game_ZMDGJ_Mgr._instance = _this;
+            return _this;
+        }
         if (!is_rewarded_noFill) {
             sessionStorage.setItem("reward-type","reward-SL");
             Laya.SoundManager.muted = true;
