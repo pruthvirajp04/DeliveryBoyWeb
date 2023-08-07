@@ -3085,7 +3085,7 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
             ViewMgr_1.default.ins_ZMDGJ_tance.open_ZMDGJ_View(ViewMgr_1.View_ZMDGJ_Def.MainView, null, onComplate);
             _this._bSceneOpen = true;
         }));
-        // commented music here for development purpose
+        //commented music here for development purpose
         SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
     };
     Game_ZMDGJ_Mgr.prototype.GameOver = function (bWin) {
@@ -4365,11 +4365,6 @@ var Level = /** @class */ (function (_super) {
         this._isStart = true;
     };
     Level.prototype.LevelOver = function (isWin) {
-      if(isWin)
-      {
-        let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-        sendCustomAnalyticsEvent("level_completed", {level: level});
-      }
         if (!this._isStart) {
             return;
         }
@@ -7288,9 +7283,6 @@ var User_ZMDGJ_ = /** @class */ (function (_super) {
         this.set_ZMDGJ_FakerLeveNum();
     };
     User_ZMDGJ_.set_ZMDGJ_LeveNum = function (levelNum) {
-        var currentLevel = levelNum;
-        sendCustomAnalyticsEvent("game_level", {level: currentLevel});
-
        //lets add after every 3 levels
        
        if((levelNum-1)%3==0)
@@ -8702,23 +8694,17 @@ var SkinTips = /** @class */ (function (_super) {
     SkinTips.prototype.onOkBtn = function () {
         // alert("button clicked here")
         sendCustomAnalyticsEvent("rewarded_ad", {successCB : 'giveRewardSL',failureCB: 'cancelRewardSL'});
-        function Game_ZMDGJ_Mgr() {
-            var _this = _super.call(this) || this;
-            _this._curLevel = null;
-            _this._bSceneOpen = false;
-            Game_ZMDGJ_Mgr._instance = _this;
-            return _this;
-        }
-        if (!is_replay_noFill) {
-            sessionStorage.setItem("reward-type","replay-RP");
+        if (!is_rewarded_noFill) {
+            sessionStorage.setItem("reward-type","reward-SL");
             Laya.SoundManager.muted = true;
-            window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
-        }else{
-            if(replayInstance != undefined)
-            replayInstance.destroyAd();
-            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj,Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
+            window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
+        } 
+        else{
+            if(rewardInstance != undefined)
+            rewardInstance.destroyAd();
+            // rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,Game_ZMDGJ_Mgr.default.prototype.rewardedCallbacks);
+            giveRewardSL();
         }
-   
        
         var _this = this;
         if (this._ading)
