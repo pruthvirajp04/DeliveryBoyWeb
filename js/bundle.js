@@ -765,7 +765,6 @@ GameConfig.init();
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var KRQ_ComBase_1 = require("./KRQ_ComBase");
-
 var WXAPI_1 = require("../../WXAPI");
 var AppSwitchConfig_1 = require("../../Config/AppSwitchConfig");
 var ShareAd_1 = require("../../ShareAd/ShareAd");
@@ -2838,7 +2837,10 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
     });
     Game_ZMDGJ_Mgr.prototype.onAwake = function () {
         //rewarded ads
-      
+            if(replayInstance == undefined) 
+        replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
+        if(rewardInstance == undefined)
+        rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
         MaiLiang_1.default.Get_ZMDGJ_Mai_ZMDGJ_Liang_ZMDGJ_OpenId(function (res) {
             console.log("GameUI 买量数据上报成功");
             Laya.Browser.window["wx"].onShow(function () {
@@ -3091,13 +3093,12 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
             _this._bSceneOpen = true;
         }));
         //commented music here for development purpose
-        SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
+        // SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
     };
 
     Game_ZMDGJ_Mgr.prototype.GameOver = function (bWin) {
         if(bWin)
         {
-         
             console.log("you win");
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
             sendCustomAnalyticsEvent("level_completed", {level: level});
@@ -8633,11 +8634,10 @@ var WudianMgr_1 = require("../../Mgr/WudianMgr");
 var CachedWXBannerAd_1 = require("../../CachedWXBannerAd");
 var AppSwitchConfig_1 = require("../../Config/AppSwitchConfig");
 var AppConfig_1 = require("../../AppConfig");
-
 var SkinTips = /** @class */ (function (_super) {
-
     __extends(SkinTips, _super);
     function SkinTips() {
+       
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this._centerZone = null;
         _this._okBtn = null;
@@ -8714,7 +8714,13 @@ var SkinTips = /** @class */ (function (_super) {
     SkinTips.prototype.onOkBtn = function () {
         // alert("button clicked here")
         sendCustomAnalyticsEvent("rewarded_ad", {successCB : 'giveRewardSL',failureCB: 'cancelRewardSL'});
-     
+        function Game_ZMDGJ_Mgr() {
+            var _this = _super.call(this) || this;
+            _this._curLevel = null;
+            _this._bSceneOpen = false;
+            Game_ZMDGJ_Mgr._instance = _this;
+            return _this;
+        }
         if (!is_rewarded_noFill) {
             sessionStorage.setItem("reward-type","reward-SL");
             Laya.SoundManager.muted = true;
@@ -8751,8 +8757,7 @@ var SkinTips = /** @class */ (function (_super) {
         });
     };
     SkinTips.prototype.onSkipBtn = function () {
-      
-        alert("skin rejected")
+        // alert("skin rejected")
         if (this._ading)
             return; //看视频中点击无效
         if (!this._bUp) {
@@ -9664,7 +9669,6 @@ var GameInfo = /** @class */ (function (_super) {
         }
     };
     GameInfo.prototype.onStart = function () {
-       
         this._level_ZMDGJ_Num.value = String(User_1.default.get_ZMDGJ_LeveNum());
         this._AllBoxNum.value = String(GameMgr_1.default.get_ZMDGJ_Instance().CurLevel.AllBoxNum);
         this._BoxNum.value = String(0);
