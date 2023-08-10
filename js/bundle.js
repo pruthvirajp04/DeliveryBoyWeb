@@ -2838,10 +2838,7 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
     });
     Game_ZMDGJ_Mgr.prototype.onAwake = function () {
         //rewarded ads
-            if(replayInstance == undefined) 
-        replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
-        if(rewardInstance == undefined)
-        rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
+      
         MaiLiang_1.default.Get_ZMDGJ_Mai_ZMDGJ_Liang_ZMDGJ_OpenId(function (res) {
             console.log("GameUI 买量数据上报成功");
             Laya.Browser.window["wx"].onShow(function () {
@@ -3100,19 +3097,9 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
     Game_ZMDGJ_Mgr.prototype.GameOver = function (bWin) {
         if(bWin)
         {
-            alert("h")
-            if (!is_replay_noFill) {
-                sessionStorage.setItem("reward-type","replay-BK");
-                Laya.SoundManager.muted = true;
-                window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
-            }else{
-                if(replayInstance != undefined)
-                replayInstance.destroyAd();
-                // replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr_1.default.prototype.rewardedCallbacks);
-            }
+         
             console.log("you win");
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-            alert(level)
             sendCustomAnalyticsEvent("level_completed", {level: level});
         }
         else{
@@ -8764,18 +8751,7 @@ var SkinTips = /** @class */ (function (_super) {
         });
     };
     SkinTips.prototype.onSkipBtn = function () {
-        if (!is_rewarded_noFill) {
-            sessionStorage.setItem("reward-type","reward-SL");
-            Laya.SoundManager.muted = true;
-            window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
-        } 
-        else{
-           
-            if(rewardInstance != undefined)
-            rewardInstance.destroyAd();
-            // rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr_1.default.prototype.rewardedCallbacks);
-            giveRewardSL();
-        }
+      
         alert("skin rejected")
         if (this._ading)
             return; //看视频中点击无效
