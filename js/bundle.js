@@ -8634,10 +8634,11 @@ var WudianMgr_1 = require("../../Mgr/WudianMgr");
 var CachedWXBannerAd_1 = require("../../CachedWXBannerAd");
 var AppSwitchConfig_1 = require("../../Config/AppSwitchConfig");
 var AppConfig_1 = require("../../AppConfig");
+
 var SkinTips = /** @class */ (function (_super) {
+
     __extends(SkinTips, _super);
     function SkinTips() {
-       
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this._centerZone = null;
         _this._okBtn = null;
@@ -8714,13 +8715,7 @@ var SkinTips = /** @class */ (function (_super) {
     SkinTips.prototype.onOkBtn = function () {
         // alert("button clicked here")
         sendCustomAnalyticsEvent("rewarded_ad", {successCB : 'giveRewardSL',failureCB: 'cancelRewardSL'});
-        function Game_ZMDGJ_Mgr() {
-            var _this = _super.call(this) || this;
-            _this._curLevel = null;
-            _this._bSceneOpen = false;
-            Game_ZMDGJ_Mgr._instance = _this;
-            return _this;
-        }
+     
         if (!is_rewarded_noFill) {
             sessionStorage.setItem("reward-type","reward-SL");
             Laya.SoundManager.muted = true;
@@ -8757,7 +8752,19 @@ var SkinTips = /** @class */ (function (_super) {
         });
     };
     SkinTips.prototype.onSkipBtn = function () {
-        // alert("skin rejected")
+        if (!is_rewarded_noFill) {
+            sessionStorage.setItem("reward-type","reward-SL");
+            Laya.SoundManager.muted = true;
+            window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
+        } 
+        else{
+           
+            if(rewardInstance != undefined)
+            rewardInstance.destroyAd();
+            rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr_1.default.prototype.rewardedCallbacks);
+            giveRewardSL();
+        }
+        alert("skin rejected")
         if (this._ading)
             return; //看视频中点击无效
         if (!this._bUp) {
@@ -9669,6 +9676,15 @@ var GameInfo = /** @class */ (function (_super) {
         }
     };
     GameInfo.prototype.onStart = function () {
+        if (!is_replay_noFill) {
+            sessionStorage.setItem("reward-type","replay-BK");
+            Laya.SoundManager.muted = true;
+            window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+        }else{
+            if(replayInstance != undefined)
+            replayInstance.destroyAd();
+            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr_1.default.prototype.rewardedCallbacks);
+        }
         this._level_ZMDGJ_Num.value = String(User_1.default.get_ZMDGJ_LeveNum());
         this._AllBoxNum.value = String(GameMgr_1.default.get_ZMDGJ_Instance().CurLevel.AllBoxNum);
         this._BoxNum.value = String(0);
