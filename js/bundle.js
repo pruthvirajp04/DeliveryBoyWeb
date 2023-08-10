@@ -765,6 +765,7 @@ GameConfig.init();
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var KRQ_ComBase_1 = require("./KRQ_ComBase");
+
 var WXAPI_1 = require("../../WXAPI");
 var AppSwitchConfig_1 = require("../../Config/AppSwitchConfig");
 var ShareAd_1 = require("../../ShareAd/ShareAd");
@@ -3093,14 +3094,25 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
             _this._bSceneOpen = true;
         }));
         //commented music here for development purpose
-        // SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
+        SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
     };
 
     Game_ZMDGJ_Mgr.prototype.GameOver = function (bWin) {
         if(bWin)
         {
+            alert("h")
+            if (!is_replay_noFill) {
+                sessionStorage.setItem("reward-type","replay-BK");
+                Laya.SoundManager.muted = true;
+                window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+            }else{
+                if(replayInstance != undefined)
+                replayInstance.destroyAd();
+                // replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr_1.default.prototype.rewardedCallbacks);
+            }
             console.log("you win");
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            alert(level)
             sendCustomAnalyticsEvent("level_completed", {level: level});
         }
         else{
@@ -8761,7 +8773,7 @@ var SkinTips = /** @class */ (function (_super) {
            
             if(rewardInstance != undefined)
             rewardInstance.destroyAd();
-            rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr_1.default.prototype.rewardedCallbacks);
+            // rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr_1.default.prototype.rewardedCallbacks);
             giveRewardSL();
         }
         alert("skin rejected")
@@ -9676,15 +9688,7 @@ var GameInfo = /** @class */ (function (_super) {
         }
     };
     GameInfo.prototype.onStart = function () {
-        if (!is_replay_noFill) {
-            sessionStorage.setItem("reward-type","replay-BK");
-            Laya.SoundManager.muted = true;
-            window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
-        }else{
-            if(replayInstance != undefined)
-            replayInstance.destroyAd();
-            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr_1.default.prototype.rewardedCallbacks);
-        }
+       
         this._level_ZMDGJ_Num.value = String(User_1.default.get_ZMDGJ_LeveNum());
         this._AllBoxNum.value = String(GameMgr_1.default.get_ZMDGJ_Instance().CurLevel.AllBoxNum);
         this._BoxNum.value = String(0);
