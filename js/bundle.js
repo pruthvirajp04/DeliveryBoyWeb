@@ -3100,6 +3100,8 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
         if(bWin)
         {
             console.log("you win");
+            //Set the SelectedLevel item first.
+            sessionStorage.setItem("SelectedLevel",parseInt(User_1.default.get_ZMDGJ_FakerLeveNum()));
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
             sendCustomAnalyticsEvent("level_completed", {level: level});
         }
