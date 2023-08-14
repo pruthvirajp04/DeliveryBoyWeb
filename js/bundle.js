@@ -3080,6 +3080,12 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
         // User_ZMDGJ_.set_ZMDGJ_LeveNum = function (levelNum) {
         //     alert(levelNum)
         // }
+             sessionStorage.setItem("SelectedLevel",parseInt(User_1.default.get_ZMDGJ_FakerLeveNum()));
+        let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+        sendCustomAnalyticsEvent( 'game_load', {} )
+        sendCustomAnalyticsEvent( 'game_start', {} )
+        var levelNum = parseInt(sessionStorage.getItem("SelectedLevel"));
+        sendCustomAnalyticsEvent("game_level", {level: levelNum});
         var _this = this;
         if (this._bSceneOpen) {
             return;
