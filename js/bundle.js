@@ -3084,20 +3084,6 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
              sessionStorage.setItem("SelectedLevel",parseInt(User_1.default.get_ZMDGJ_FakerLeveNum()));
         let level = parseInt(sessionStorage.getItem("SelectedLevel"));
   
-        if((level)%3==0)
-        {
-      
-         // alert("hello it is multiple of level 3")
-         if (!is_replay_noFill) {
-             sessionStorage.setItem("reward-type","replay-RP");
-             Laya.SoundManager.muted = true;
-             window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
-         }else{
-             if(replayInstance != undefined)
-             replayInstance.destroyAd();
-             replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj,Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
-         } 
-        }
 
         sendCustomAnalyticsEvent( 'game_load', {} )
         sendCustomAnalyticsEvent( 'game_start', {} )
@@ -3120,9 +3106,26 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
     };
 
     Game_ZMDGJ_Mgr.prototype.GameOver = function (bWin) {
+        let levelnum = parseInt(sessionStorage.getItem("SelectedLevel"));
+  
+        if((levelnum)%3==0)
+        {
+    //   alert("3 r")
+         // alert("hello it is multiple of level 3")
+         if (!is_replay_noFill) {
+            sessionStorage.setItem("reward-type","replay-RP");
+            Laya.SoundManager.muted = true;
+            window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+        }else{
+            if(replayInstance != undefined)
+            replayInstance.destroyAd();
+            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
+        } 
+        }
         if(bWin)
         {
             console.log("you win");
+     
             //Set the SelectedLevel item first.
             sessionStorage.setItem("SelectedLevel",parseInt(User_1.default.get_ZMDGJ_FakerLeveNum()));
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
