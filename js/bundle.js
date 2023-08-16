@@ -2803,6 +2803,7 @@ new Main();
 },{"./ALD":1,"./AppConfig":2,"./Event/EventDef":7,"./Event/EventMgr":8,"./GameConfig":9,"./Net/HttpUnit":48,"./OPPOAPI":49,"./QQMiniGameAPI":50,"./TTAPI":55,"./User/User":56,"./View/LoadingView/LoadingView":62,"./WXAPI":92,"./ui/layaMaxUI":93}],29:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+
 var Utilit_1 = require("../Utilit");
 var ViewMgr_1 = require("./ViewMgr");
 var User_1 = require("../User/User");
@@ -3082,6 +3083,22 @@ var Game_ZMDGJ_Mgr = /** @class */ (function (_super) {
         // }
              sessionStorage.setItem("SelectedLevel",parseInt(User_1.default.get_ZMDGJ_FakerLeveNum()));
         let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+  
+        if((level)%3==0)
+        {
+      
+         // alert("hello it is multiple of level 3")
+         if (!is_replay_noFill) {
+             sessionStorage.setItem("reward-type","replay-RP");
+             Laya.SoundManager.muted = true;
+             window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+         }else{
+             if(replayInstance != undefined)
+             replayInstance.destroyAd();
+             replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj,Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
+         } 
+        }
+
         sendCustomAnalyticsEvent( 'game_load', {} )
         sendCustomAnalyticsEvent( 'game_start', {} )
         var levelNum = parseInt(sessionStorage.getItem("SelectedLevel"));
@@ -7311,28 +7328,7 @@ var User_ZMDGJ_ = /** @class */ (function (_super) {
     };
     User_ZMDGJ_.set_ZMDGJ_LeveNum = function (levelNum) {
        //lets add after every 3 levels
-       
-       if((levelNum-1)%3==0)
-       {
-        function Game_ZMDGJ_Mgr() {
-            var _this = _super.call(this) || this;
-            _this._curLevel = null;
-            _this._bSceneOpen = false;
-            Game_ZMDGJ_Mgr._instance = _this;
-            return _this;
-        }
-      
-        // alert("hello it is multiple of level 3")
-        if (!is_replay_noFill) {
-            sessionStorage.setItem("reward-type","replay-RP");
-            Laya.SoundManager.muted = true;
-            window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
-        }else{
-            if(replayInstance != undefined)
-            replayInstance.destroyAd();
-            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj,Game_ZMDGJ_Mgr.prototype.rewardedCallbacks);
-        } 
-       }
+     
   
         User_ZMDGJ_._game_ZMDGJ_Data.levelNum = levelNum;
         this.set_ZMDGJ_FakerLeveNum();
