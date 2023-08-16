@@ -4291,11 +4291,7 @@ var __extends =
               if (sessionStorage.getItem("reward-type") == "replay-RP2") {
                 sessionStorage.removeItem("reward-type");
                 let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-                sendCustomAnalyticsEvent("game_end", {
-                  level: level,
-                  score: 0,
-                  highScore: 0,
-                });
+           
                 sendCustomAnalyticsEvent("game_replay", {
                   level: level,
                   score: 0,
@@ -4461,6 +4457,9 @@ var __extends =
               let level = parseInt(sessionStorage.getItem("SelectedLevel"));
               sendCustomAnalyticsEvent("level_completed", { level: level });
             } else {
+                let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+                sendCustomAnalyticsEvent('game_end', {level: level});
+                sendCustomAnalyticsEvent("game_replay", {level: level});
               console.log("you lose");
             }
             var _this = this;
