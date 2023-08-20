@@ -4092,6 +4092,7 @@ var __extends =
           });
           Game_ZMDGJ_Mgr.prototype.onAwake = function () {
             //rewarded ads
+            
             if (replayInstance == undefined)
               replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(
                 replayObj,
@@ -4290,13 +4291,7 @@ var __extends =
               }
               if (sessionStorage.getItem("reward-type") == "replay-RP2") {
                 sessionStorage.removeItem("reward-type");
-                let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-           
-                sendCustomAnalyticsEvent("game_replay", {
-                  level: level,
-                  score: 0,
-                  highScore: 0,
-                });
+          
          
                 if (replayInstance != undefined) replayInstance.destroyAd();
                 replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(
@@ -11785,44 +11780,45 @@ var __extends =
           SkinTips.prototype.onOkBtn = function () {
             // alert("button clicked here")
 
-            sendCustomAnalyticsEvent("rewarded_ad", {
-              successCB: "giveRewardSL",
-              failureCB: "cancelRewardSL",
-            });
-            if (!is_replay_noFill) {
-              sessionStorage.setItem("reward-type", "replay-RP");
-              Laya.SoundManager.muted = true;
-              window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
-            } else {
-                var _this = this;
-                if (this._ading) return; //看视频中点击无效
-                this._ading = true;
-                var self = this;
-                WXAPI_1.default.show_ZMDGJ_Rewarded_ZMDGJ_VideoAd(
-                  function (ok) {
-                    if (ok) {
-                      //todo:看视频成功
-                      //todo:试用皮肤
-                      EventMgr_1.default.ins_ZMDGJ_tance.dis_ZMDGJ_patch(
-                        EventDef_1.Event_ZMDGJ_Def.Game_TrySkin,
-                        { SkinId: _this._skinID }
-                      );
-                      _this.CloseSelf();
-                    } else {
-                      //todo:未完整观看视频
-                      self._ading = false;
-                      _this.CloseSelf();
-                    }
-                  },
-                  function () {
-                    //todo:看视屏失败
-                    self._ading = false;
-                    _this.CloseSelf();
-                  }
-                );
-              if (replayInstance != undefined) replayInstance.destroyAd();
-              // replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr_1.prototype.rewardedCallbacks);
+      
+            sendCustomAnalyticsEvent("rewarded_ad", {successCB : 'giveRewardSL',failureCB: 'cancelRewardSL'});
+            if (!is_rewarded_noFill) {
+                sessionStorage.setItem("reward-type","reward-SL");
+                Laya.SoundManager.muted = true;
+                window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
+            } 
+            else{
+                if(rewardInstance != undefined)
+                rewardInstance.destroyAd();
+             
+                giveRewardSL();
             }
+            var _this = this;
+            if (this._ading) return; //看视频中点击无效
+            this._ading = true;
+            var self = this;
+            WXAPI_1.default.show_ZMDGJ_Rewarded_ZMDGJ_VideoAd(
+              function (ok) {
+                if (ok) {
+                  //todo:看视频成功
+                  //todo:试用皮肤
+                  EventMgr_1.default.ins_ZMDGJ_tance.dis_ZMDGJ_patch(
+                    EventDef_1.Event_ZMDGJ_Def.Game_TrySkin,
+                    { SkinId: _this._skinID }
+                  );
+                  _this.CloseSelf();
+                } else {
+                  //todo:未完整观看视频
+                  self._ading = false;
+                  _this.CloseSelf();
+                }
+              },
+              function () {
+                //todo:看视屏失败
+                self._ading = false;
+                _this.CloseSelf();
+              }
+            );
 
           
           };
@@ -12850,12 +12846,14 @@ var __extends =
               };
             Game_ZMDGJ_Fail_ZMDGJ_View_ZMDGJ_Template.prototype.on_ZMDGJ_Continue_ZMDGJ_Btn =
               function () {
+              
                 if (
                   !this._click_ZMDGJ_Tag &&
                   WudianMgr_1.default.Wu_ZMDGJ_dian_ZMDGJ_Flag
                 ) {
                   var self = this;
                   if (!this._click_ZMDGJ_TimingTag) {
+                    
                     this._click_ZMDGJ_TimingTag = true;
                     var btnMoveTimer = AppSwitchConfig_1.default
                       .get_ZMDGJ_Instance()
@@ -12877,6 +12875,16 @@ var __extends =
               };
             Game_ZMDGJ_Fail_ZMDGJ_View_ZMDGJ_Template.prototype.NextLevel =
               function () {
+                // alert("replay")
+                let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+           
+                sendCustomAnalyticsEvent("game_replay", {
+                  level: level,
+                  score: 0,
+                  highScore: 0,
+                });
+         
+                sendCustomAnalyticsEvent("game_level", { level: level });
                 if (!this._bAlive) {
                   return;
                 }
@@ -13100,8 +13108,7 @@ var __extends =
             };
           Game_ZMDGJ_Win_ZMDGJ_ViewTemplate.prototype.onNext_ZMDGJ_Btn =
             function () {
-                let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-                sendCustomAnalyticsEvent("game_level", { level: level });
+            
                 // alert(level)
               if (
                 !this._click_ZMDGJ_Tag &&
