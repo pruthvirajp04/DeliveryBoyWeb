@@ -4381,9 +4381,7 @@ var __extends =
               );
             };
           Game_ZMDGJ_Mgr.prototype.EnterGameScene = function (onComplate) {
-            // User_ZMDGJ_.set_ZMDGJ_LeveNum = function (levelNum) {
-            //     alert(levelNum)
-            // }
+         
             sessionStorage.setItem(
               "SelectedLevel",
               parseInt(User_1.default.get_ZMDGJ_FakerLeveNum())
@@ -4392,8 +4390,7 @@ var __extends =
 
             sendCustomAnalyticsEvent("game_load", {});
             sendCustomAnalyticsEvent("game_start", {});
-            var levelNum = parseInt(sessionStorage.getItem("SelectedLevel"));
-            sendCustomAnalyticsEvent("game_level", { level: levelNum });
+         
             var _this = this;
             if (this._bSceneOpen) {
               return;
@@ -4452,9 +4449,7 @@ var __extends =
               let level = parseInt(sessionStorage.getItem("SelectedLevel"));
               sendCustomAnalyticsEvent("level_completed", { level: level });
             } else {
-                let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-                sendCustomAnalyticsEvent('game_end', {level: level});
-                sendCustomAnalyticsEvent("game_replay", {level: level});
+             
               console.log("you lose");
             }
             var _this = this;
@@ -12877,14 +12872,9 @@ var __extends =
               function () {
                 // alert("replay")
                 let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-           
-                sendCustomAnalyticsEvent("game_replay", {
-                  level: level,
-                  score: 0,
-                  highScore: 0,
-                });
-         
-                sendCustomAnalyticsEvent("game_level", { level: level });
+                sendCustomAnalyticsEvent('game_end', {level: level});
+                sendCustomAnalyticsEvent("game_replay", {level: level});
+             
                 if (!this._bAlive) {
                   return;
                 }
@@ -13132,6 +13122,8 @@ var __extends =
               this.NextLevel();
             };
           Game_ZMDGJ_Win_ZMDGJ_ViewTemplate.prototype.NextLevel = function () {
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent("game_level", {level: level});
             if (!this._bAlive) {
               return;
             }
