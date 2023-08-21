@@ -13246,6 +13246,12 @@ var __extends =
          }
           }
           GameInfo.prototype.onAwake = function () {
+            if(sessionStorage.getItem("GiveRewardSL") == 1){
+              sessionStorage.removeItem("GiveRewardSL");
+              // let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+              // sendCustomAnalyticsEvent("game_level", {level: level});
+         alert("hello")
+         }
             this._center_ZMDGJ_Zone = this.owner;
             this._level_ZMDGJ_Num = this._center_ZMDGJ_Zone
               .getChildByName("LevelInfo")
