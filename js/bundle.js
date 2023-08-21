@@ -10532,12 +10532,7 @@ var __extends =
             _super.prototype.remove_ZMDGJ_Event.call(this);
           };
           Loading_ZMDGJ_View.prototype.onUpdate = function () {
-            if(sessionStorage.getItem("GiveRewardSL") == 1){
-              sessionStorage.removeItem("GiveRewardSL");
-              // let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-              // sendCustomAnalyticsEvent("game_level", {level: level});
-         alert("hello")
-         }
+      
             this._bg_ZMDGJ_.width = Laya.stage.width;
             this._bg_ZMDGJ_.height = Laya.stage.height;
           };
@@ -13240,6 +13235,15 @@ var __extends =
             _this._terminusSprite = null;
             _this._targetSprite3D = null;
             return _this;
+          }
+          GameInfo.prototype.onUpdate=function()
+          {
+            if(sessionStorage.getItem("GiveRewardSL") == 1){
+              sessionStorage.removeItem("GiveRewardSL");
+              // let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+              // sendCustomAnalyticsEvent("game_level", {level: level});
+         alert("hello")
+         }
           }
           GameInfo.prototype.onAwake = function () {
             this._center_ZMDGJ_Zone = this.owner;
