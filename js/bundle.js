@@ -4147,6 +4147,15 @@ var __extends =
               }
             }
           };
+          Game_ZMDGJ_Mgr.prototype.onUpdate=function()
+          {
+            if(sessionStorage.getItem("GiveRewardSL") == 1){
+              sessionStorage.removeItem("GiveRewardSL");
+              // let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+              // sendCustomAnalyticsEvent("game_level", {level: level});
+         alert("hello")
+         }
+          };
           Game_ZMDGJ_Mgr.prototype.onStart = function () {
             this.pre_ZMDGJ_Create_ZMDGJ_Game();
           };
@@ -13236,15 +13245,7 @@ var __extends =
             _this._targetSprite3D = null;
             return _this;
           }
-          GameInfo.prototype.onUpdate=function()
-          {
-            if(sessionStorage.getItem("GiveRewardSL") == 1){
-              sessionStorage.removeItem("GiveRewardSL");
-              // let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-              // sendCustomAnalyticsEvent("game_level", {level: level});
-         alert("hello")
-         }
-          }
+      
           GameInfo.prototype.onAwake = function () {
             if(sessionStorage.getItem("GiveRewardSL") == 1){
               sessionStorage.removeItem("GiveRewardSL");
