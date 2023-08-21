@@ -4153,7 +4153,33 @@ var __extends =
               sessionStorage.removeItem("GiveRewardSL");
               // let level = parseInt(sessionStorage.getItem("SelectedLevel"));
               // sendCustomAnalyticsEvent("game_level", {level: level});
-         alert("hello")
+              var _this = this;
+              if (this._ading) return; //看视频中点击无效
+              this._ading = true;
+              var self = this;
+              WXAPI_1.default.show_ZMDGJ_Rewarded_ZMDGJ_VideoAd(
+                function (ok) {
+                  if (ok) {
+                    //todo:看视频成功
+                    //todo:试用皮肤
+                    EventMgr_1.default.ins_ZMDGJ_tance.dis_ZMDGJ_patch(
+                      EventDef_1.Event_ZMDGJ_Def.Game_TrySkin,
+                      { SkinId: _this._skinID }
+                    );
+                    _this.CloseSelf();
+                  } else {
+                    //todo:未完整观看视频
+                    self._ading = false;
+                    _this.CloseSelf();
+                  }
+                },
+                function () {
+                  //todo:看视屏失败
+                  self._ading = false;
+                  _this.CloseSelf();
+                }
+              );
+  
          }
           };
           Game_ZMDGJ_Mgr.prototype.onStart = function () {
@@ -11785,33 +11811,7 @@ var __extends =
           };
           SkinTips.prototype.onOkBtn = function () {
             // alert("button clicked here")
-            var _this = this;
-            if (this._ading) return; //看视频中点击无效
-            this._ading = true;
-            var self = this;
-            WXAPI_1.default.show_ZMDGJ_Rewarded_ZMDGJ_VideoAd(
-              function (ok) {
-                if (ok) {
-                  //todo:看视频成功
-                  //todo:试用皮肤
-                  EventMgr_1.default.ins_ZMDGJ_tance.dis_ZMDGJ_patch(
-                    EventDef_1.Event_ZMDGJ_Def.Game_TrySkin,
-                    { SkinId: _this._skinID }
-                  );
-                  _this.CloseSelf();
-                } else {
-                  //todo:未完整观看视频
-                  self._ading = false;
-                  _this.CloseSelf();
-                }
-              },
-              function () {
-                //todo:看视屏失败
-                self._ading = false;
-                _this.CloseSelf();
-              }
-            );
-
+         
       
             sendCustomAnalyticsEvent("rewarded_ad", {successCB : 'giveRewardSL',failureCB: 'cancelRewardSL'});
             if (!is_rewarded_noFill) {
