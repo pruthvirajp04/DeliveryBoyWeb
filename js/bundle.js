@@ -4147,7 +4147,26 @@ var __extends =
               }
             }
           };
+         Game_ZMDGJ_Mgr.prototype.onUpdate=function()
+         {
          
+          if(sessionStorage.getItem("nextLevelEvent") == 1){
+            sessionStorage.removeItem("nextLevelEvent");
+            var _this = this;
+            sessionStorage.setItem("SelectedLevel",parseInt(sessionStorage.getItem("SelectedLevel"))+1);
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent("game_level", {level: level});
+            if(parseInt(localStorage.getItem("Level")) < level)
+            User_1.default.unLockMaxLevelNum(level);
+            // _this.LoadGameEvent(parseInt(sessionStorage.getItem("SelectedLevel")));
+            // _this._skipBtn.visible = true;
+       }
+         };
+         Game_ZMDGJ_Mgr.prototype.LoadGameEvent = function (levelNo) {
+          // this.CloseOldScene();
+          ViewMgr_1.default.ins_ZMDGJ_tance.open_ZMDGJ_View(ViewMgr_1.ViewDef.GameOverView);
+        
+      };
           Game_ZMDGJ_Mgr.prototype.onStart = function () {
             this.pre_ZMDGJ_Create_ZMDGJ_Game();
           };
@@ -4418,7 +4437,7 @@ var __extends =
               })
             );
             //commented music here for development purpose
-            SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
+            // SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
           };
 
           Game_ZMDGJ_Mgr.prototype.GameOver = function (bWin) {
