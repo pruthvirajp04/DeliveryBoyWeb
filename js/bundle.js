@@ -4157,9 +4157,13 @@ var __extends =
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
             sendCustomAnalyticsEvent("game_level", {level: level});
             if(parseInt(localStorage.getItem("Level")) < level)
-            User_1.default.unLockMaxLevelNum(level);
-            // _this.LoadGameEvent(parseInt(sessionStorage.getItem("SelectedLevel")));
-            // _this._skipBtn.visible = true;
+            GameMgr_1.default
+            .get_ZMDGJ_Instance()
+            .EnterGameScene(function () {
+              ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
+                ViewMgr_1.View_ZMDGJ_Def.GameWinView
+              );
+            });
        }
          };
          Game_ZMDGJ_Mgr.prototype.LoadGameEvent = function (levelNo) {
