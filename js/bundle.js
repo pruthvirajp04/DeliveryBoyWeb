@@ -7034,6 +7034,18 @@ var __extends =
                     .CurLevel.LevelOver(true);
                     sessionStorage.setItem("nextLevelEvent1",1);
           }
+          if(sessionStorage.getItem("gotoLevel") >0 ){
+            let LevelNo = parseInt(sessionStorage.getItem("gotoLevel"));
+
+            console.log(sessionStorage.getItem("gotoLevel"));
+            sessionStorage.removeItem("gotoLevel");
+            GameMgr_1.default
+                    .get_ZMDGJ_Instance()
+                    .CurLevel.LevelOver(true);
+                    sessionStorage.setItem("gotoLevelEvent1",LevelNo);
+           
+            
+          }
           }
           Role.prototype.Collision = function (collision) {
             var _this = this;
@@ -13272,6 +13284,24 @@ var __extends =
             this._bAlive = false;
             User_1.default.set_ZMDGJ_LeveNum(
               User_1.default.get_ZMDGJ_LeveNum() + 1
+            );
+            GameMgr_1.default.get_ZMDGJ_Instance().EnterGameScene(function () {
+               ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
+                ViewMgr_1.View_ZMDGJ_Def.GameWinView
+              );
+            });
+          }
+          if(sessionStorage.getItem("gotoLevelEvent1") >0){
+            let LevelNo = parseInt(sessionStorage.getItem("gotoLevelEvent1"));
+            sessionStorage.removeItem("gotoLevelEvent1");
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent("game_level", {level: level});
+            // if (!this._bAlive) {
+            //   return;
+            // }
+            this._bAlive = false;
+            User_1.default.set_ZMDGJ_LeveNum(
+              User_1.default.get_ZMDGJ_LeveNum() + LevelNo -1
             );
             GameMgr_1.default.get_ZMDGJ_Instance().EnterGameScene(function () {
                ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
