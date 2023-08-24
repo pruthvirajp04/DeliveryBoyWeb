@@ -7031,8 +7031,15 @@ var __extends =
             sessionStorage.removeItem("replayGameEvent");
             GameMgr_1.default
                     .get_ZMDGJ_Instance()
-                    .CurLevel.LevelOver(true);
+                    .CurLevel.LevelOver(false);
                     sessionStorage.setItem("replayGameEvent1",1);
+          }
+          if(sessionStorage.getItem("gotoHomeEvent") == 1){
+            sessionStorage.removeItem("gotoHomeEvent");
+            GameMgr_1.default
+                    .get_ZMDGJ_Instance()
+                    .CurLevel.LevelOver(false);
+                    sessionStorage.setItem("gotoHomeEvent1",1);
           }
           if(sessionStorage.getItem("nextLevelEvent") == 1){
             sessionStorage.removeItem("nextLevelEvent");
@@ -12970,7 +12977,38 @@ var __extends =
             }
             Game_ZMDGJ_Fail_ZMDGJ_View_ZMDGJ_Template.prototype.onUpdate=function()
             {
-       
+              if(sessionStorage.getItem("replayGameEvent1") == 1){
+                sessionStorage.removeItem("replayGameEvent1");
+                let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+                sendCustomAnalyticsEvent("game_level", {level: level});
+                // if (!this._bAlive) {
+                //   return;
+                // }
+                this._bAlive = false;
+                GameMgr_1.default
+                .get_ZMDGJ_Instance()
+                .EnterGameScene(function () {
+                  ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
+                    ViewMgr_1.View_ZMDGJ_Def.GameWinView
+                  );
+                });
+              }
+              if(sessionStorage.getItem("gotoHomeEvent1") == 1){
+                sessionStorage.removeItem("gotoHomeEvent1");
+                let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+                sendCustomAnalyticsEvent("game_level", {level: level});
+                // if (!this._bAlive) {
+                //   return;
+                // }
+                this._bAlive = false;
+                GameMgr_1.default
+                .get_ZMDGJ_Instance()
+                .EnterGameScene(function () {
+                  ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
+                    ViewMgr_1.View_ZMDGJ_Def.GameWinView
+                  );
+                });
+              }
             }
             Game_ZMDGJ_Fail_ZMDGJ_View_ZMDGJ_Template.prototype.onAwake =
               function () {
@@ -13302,23 +13340,7 @@ var __extends =
               );
             });
           }
-          if(sessionStorage.getItem("replayGameEvent1") == 1){
-            sessionStorage.removeItem("replayGameEvent1");
-            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-            sendCustomAnalyticsEvent("game_level", {level: level});
-            // if (!this._bAlive) {
-            //   return;
-            // }
-            this._bAlive = false;
-            User_1.default.set_ZMDGJ_LeveNum(
-              User_1.default.get_ZMDGJ_LeveNum() +1
-            );
-            GameMgr_1.default.get_ZMDGJ_Instance().EnterGameScene(function () {
-               ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
-                ViewMgr_1.View_ZMDGJ_Def.GameWinView
-              );
-            });
-          }
+         
           if(sessionStorage.getItem("gotoLevelEvent1") >0){
             let LevelNo = parseInt(sessionStorage.getItem("gotoLevelEvent1"));
             sessionStorage.removeItem("gotoLevelEvent1");
