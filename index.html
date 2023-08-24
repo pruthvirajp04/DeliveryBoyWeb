@@ -30,6 +30,14 @@
             script.src = url;
             document.body.appendChild(script);
         }
+        const urlQuery = new URLSearchParams(window.location.search);
+        const langParam = urlQuery.get('hl');
+        let lang = null;
+        if(langParam == "id")
+            lang = "IND";
+        else lang = "";
+        let progressPrec=0
+
         function load_show()
         {  
             refreshStickyBannerAd();
@@ -41,18 +49,22 @@
              script.src = 'index.js';
              document.body.appendChild(script);
         }     
-        let progressPrec=0
         function pauseEvent(){
             Laya.SoundManager.muted = true;
             let ins = document.createElement("ins");
             ins.style = "display: block !important; background-color: rgba(1, 1, 1, 0) !important; opacity: 1 !important; position: fixed !important; margin: 0px !important; padding: 0px !important; z-index: 2147483647 !important; width: 100% !important; height: 93% !important; left: 0px !important; top: 0px !important;";
             ins.setAttribute("id", "pauseOverlay");
             if(lang == "IND"){
-                ins.innerHTML = "<h1 style='color:black;position: absolute;left: 50%;top: 50%;-moz-transform: translate(-50%, -50%); /* Firefox */-ms-transform: translate(-50%, -50%);  /* IE 9 */-webkit-transform: translate(-50%, -50%); /* Safari and Chrome*/-o-transform: translate(-50%, -50%); /* Opera */transform: translate(-50%, -50%);'>Dijeda</h1>";
+                ins.innerHTML = "<h1 style='color:black;position: absolute;left: 50%;top: 50%;-moz-transform: translate(-50%, -50%); /* Firefox /-ms-transform: translate(-50%, -50%);  / IE 9 /-webkit-transform: translate(-50%, -50%); / Safari and Chrome*/-o-transform: translate(-50%, -50%); /* Opera */transform: translate(-50%, -50%);'>Dijeda</h1>";
             }else{
-                ins.innerHTML = "<h1 style='color:black;position: absolute;left: 50%;top: 50%;-moz-transform: translate(-50%, -50%); /* Firefox */-ms-transform: translate(-50%, -50%);  /* IE 9 */-webkit-transform: translate(-50%, -50%); /* Safari and Chrome*/-o-transform: translate(-50%, -50%); /* Opera */transform: translate(-50%, -50%);'>Paused</h1>";
+                ins.innerHTML = "<h1 style='color:black;position: absolute;left: 50%;top: 50%;-moz-transform: translate(-50%, -50%); /* Firefox /-ms-transform: translate(-50%, -50%);  / IE 9 /-webkit-transform: translate(-50%, -50%); / Safari and Chrome*/-o-transform: translate(-50%, -50%); /* Opera */transform: translate(-50%, -50%);'>Paused</h1>";
             }
             document.body.appendChild(ins);
+        }
+        function resumeEvent(){
+            if(sessionStorage.getItem("sound_status") == 1)
+            Laya.SoundManager.muted = false;
+            document.getElementById('pauseOverlay').remove();
         }
         function resumeEvent(){
             Laya.SoundManager.muted = false;

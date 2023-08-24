@@ -4421,7 +4421,7 @@ var __extends =
               })
             );
             //commented music here for development purpose
-            // SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
+            SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
           };
 
           Game_ZMDGJ_Mgr.prototype.GameOver = function (bWin) {
@@ -7027,7 +7027,14 @@ var __extends =
             // this.Collision(collision);
           };
           Role.prototype.onUpdate = function () {
-            if(sessionStorage.getItem("nextLevelEvent") == 1){
+            if(sessionStorage.getItem("replayGameEvent") == 1){
+            sessionStorage.removeItem("replayGameEvent");
+            GameMgr_1.default
+                    .get_ZMDGJ_Instance()
+                    .CurLevel.LevelOver(true);
+                    sessionStorage.setItem("replayGameEvent1",1);
+          }
+          if(sessionStorage.getItem("nextLevelEvent") == 1){
             sessionStorage.removeItem("nextLevelEvent");
             GameMgr_1.default
                     .get_ZMDGJ_Instance()
@@ -12961,6 +12968,10 @@ var __extends =
               _this._bAlive = true;
               return _this;
             }
+            Game_ZMDGJ_Fail_ZMDGJ_View_ZMDGJ_Template.prototype.onUpdate=function()
+            {
+       
+            }
             Game_ZMDGJ_Fail_ZMDGJ_View_ZMDGJ_Template.prototype.onAwake =
               function () {
                 _super.prototype.onAwake.call(this);
@@ -13276,6 +13287,23 @@ var __extends =
           Game_ZMDGJ_Win_ZMDGJ_ViewTemplate.prototype.onUpdate = function(){
             if(sessionStorage.getItem("nextLevelEvent1") == 1){
             sessionStorage.removeItem("nextLevelEvent1");
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent("game_level", {level: level});
+            // if (!this._bAlive) {
+            //   return;
+            // }
+            this._bAlive = false;
+            User_1.default.set_ZMDGJ_LeveNum(
+              User_1.default.get_ZMDGJ_LeveNum() 
+            );
+            GameMgr_1.default.get_ZMDGJ_Instance().EnterGameScene(function () {
+               ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
+                ViewMgr_1.View_ZMDGJ_Def.GameWinView
+              );
+            });
+          }
+          if(sessionStorage.getItem("replayGameEvent1") == 1){
+            sessionStorage.removeItem("replayGameEvent1");
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
             sendCustomAnalyticsEvent("game_level", {level: level});
             // if (!this._bAlive) {
