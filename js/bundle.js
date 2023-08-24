@@ -4187,16 +4187,7 @@ var __extends =
             });
           };
 
-          //游戏存档,仅当作示例，实际存档根据实际项目各自实现
-          // Game_ZMDGJ_Mgr.prototype.onUpdate = function(){
-          //   if(sessionStorage.getItem("nextLevelEvent") == 1){
-          //   sessionStorage.removeItem("nextLevelEvent");
-          //   let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-          //   sendCustomAnalyticsEvent("game_level", {level: level});
-          //   Game_ZMDGJ_Mgr.prototype.GameOver(true);
-          //   sessionStorage.setItem("nextLevelEvent1",1);
-          // }
-          // }
+       
 
           Game_ZMDGJ_Mgr.prototype.rewardedCallbacks = function (obj) {
             var self = this;
@@ -7042,9 +7033,7 @@ var __extends =
                     .get_ZMDGJ_Instance()
                     .CurLevel.LevelOver(true);
                     sessionStorage.setItem("nextLevelEvent1",1);
-                    
           }
-      
           }
           Role.prototype.Collision = function (collision) {
             var _this = this;
@@ -13272,7 +13261,25 @@ var __extends =
                 );
             });
           };
-       
+          Game_ZMDGJ_Win_ZMDGJ_ViewTemplate.prototype.onUpdate = function(){
+            if(sessionStorage.getItem("nextLevelEvent1") == 1){
+            sessionStorage.removeItem("nextLevelEvent1");
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent("game_level", {level: level});
+            // if (!this._bAlive) {
+            //   return;
+            // }
+            this._bAlive = false;
+            User_1.default.set_ZMDGJ_LeveNum(
+              User_1.default.get_ZMDGJ_LeveNum() + 1
+            );
+            GameMgr_1.default.get_ZMDGJ_Instance().EnterGameScene(function () {
+               ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
+                ViewMgr_1.View_ZMDGJ_Def.GameWinView
+              );
+            });
+          }
+          }
 
           Game_ZMDGJ_Win_ZMDGJ_ViewTemplate.prototype.add_ZMDGJ_Event =
             function () {
