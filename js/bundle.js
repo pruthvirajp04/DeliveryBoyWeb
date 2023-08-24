@@ -4421,7 +4421,7 @@ var __extends =
               })
             );
             //commented music here for development purpose
-            SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
+            // SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
           };
 
           Game_ZMDGJ_Mgr.prototype.GameOver = function (bWin) {
@@ -13311,7 +13311,7 @@ var __extends =
             // }
             this._bAlive = false;
             User_1.default.set_ZMDGJ_LeveNum(
-              User_1.default.get_ZMDGJ_LeveNum() + 1
+              User_1.default.get_ZMDGJ_LeveNum() +1
             );
             GameMgr_1.default.get_ZMDGJ_Instance().EnterGameScene(function () {
                ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
@@ -13329,7 +13329,7 @@ var __extends =
             // }
             this._bAlive = false;
             User_1.default.set_ZMDGJ_LeveNum(
-              User_1.default.get_ZMDGJ_LeveNum() + LevelNo -1
+              LevelNo 
             );
             GameMgr_1.default.get_ZMDGJ_Instance().EnterGameScene(function () {
                ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
