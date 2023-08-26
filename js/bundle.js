@@ -7038,7 +7038,7 @@ var __extends =
             sessionStorage.removeItem("gotoHomeEvent");
             GameMgr_1.default
                     .get_ZMDGJ_Instance()
-                    .CurLevel.LevelOver(fase);
+                    .CurLevel.LevelOver(false);
                     sessionStorage.setItem("gotoHomeEvent1",1);
           }
           if(sessionStorage.getItem("nextLevelEvent") == 1){
