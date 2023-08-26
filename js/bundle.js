@@ -12997,9 +12997,7 @@ var __extends =
           };
             Game_ZMDGJ_Fail_ZMDGJ_View_ZMDGJ_Template.prototype.onAwake =
               function () {
-                let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-                sendCustomAnalyticsEvent('game_end', {level: level});
-                sendCustomAnalyticsEvent("game_replay", {level: level});
+             
                 _super.prototype.onAwake.call(this);
                 this._center_ZMDGJ_Zone =
                   this.View_ZMDGJ_.getChildByName("CenterZone");
@@ -13136,7 +13134,9 @@ var __extends =
               };
             Game_ZMDGJ_Fail_ZMDGJ_View_ZMDGJ_Template.prototype.NextLevel =
               function () {
-            
+                let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+                sendCustomAnalyticsEvent('game_end', {level: level});
+                sendCustomAnalyticsEvent("game_replay", {level: level});
                 this._bAlive = false;
                 GameMgr_1.default
                   .get_ZMDGJ_Instance()
