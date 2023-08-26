@@ -7038,7 +7038,7 @@ var __extends =
             sessionStorage.removeItem("gotoHomeEvent");
             GameMgr_1.default
                     .get_ZMDGJ_Instance()
-                    .CurLevel.LevelOver(false);
+                    .CurLevel.LevelOver(true);
                     sessionStorage.setItem("gotoHomeEvent1",1);
           }
           if(sessionStorage.getItem("nextLevelEvent") == 1){
@@ -12980,34 +12980,52 @@ var __extends =
               if(sessionStorage.getItem("replayGameEvent1") == 1){
                 sessionStorage.removeItem("replayGameEvent1");
                 let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-                sendCustomAnalyticsEvent("game_level", {level: level});
-                // if (!this._bAlive) {
-                //   return;
-                // }
-                this._bAlive = false;
-                GameMgr_1.default
-                .get_ZMDGJ_Instance()
-                .EnterGameScene(function () {
-                  ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
-                    ViewMgr_1.View_ZMDGJ_Def.GameWinView
-                  );
-                });
+           
+                _super.prototype.onAwake.call(this);
+                this._center_ZMDGJ_Zone =
+                  this.View_ZMDGJ_.getChildByName("CenterZone");
+                if (Utilit_1.default.is_ZMDGJ_IphoneX()) {
+                  this._center_ZMDGJ_Zone.top =
+                    this._center_ZMDGJ_Zone.top + 75;
+                }
+                this._back_ZMDGJ_Btn =
+                  this._center_ZMDGJ_Zone.getChildByName("BackBtn");
+                this._continue_ZMDGJ_Btn =
+                  this._center_ZMDGJ_Zone.getChildByName("ContinueBtn");
+                for (var i = 0; i < this._center_ZMDGJ_Zone.numChildren; ++i) {
+                  var ad = this._center_ZMDGJ_Zone
+                    .getChildAt(i)
+                    .getComponent(KRQ_RollSingleAd_1.default);
+                  if (null == ad) continue;
+                  this._roll_ZMDGJ_SingleAds.push(ad);
+                }
+                if (WudianMgr_1.default.Wu_ZMDGJ_dian_ZMDGJ_Flag) {
+                  this.History_ZMDGJ_Btn.visible = false;
+                }
               }
               if(sessionStorage.getItem("gotoHomeEvent1") == 1){
                 sessionStorage.removeItem("gotoHomeEvent1");
-                let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-                sendCustomAnalyticsEvent("game_level", {level: level});
-                // if (!this._bAlive) {
-                //   return;
-                // }
-                this._bAlive = false;
-                GameMgr_1.default
-                .get_ZMDGJ_Instance()
-                .EnterGameScene(function () {
-                  ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
-                    ViewMgr_1.View_ZMDGJ_Def.GameWinView
-                  );
-                });
+                _super.prototype.onAwake.call(this);
+                this._center_ZMDGJ_Zone =
+                  this.View_ZMDGJ_.getChildByName("CenterZone");
+                if (Utilit_1.default.is_ZMDGJ_IphoneX()) {
+                  this._center_ZMDGJ_Zone.top =
+                    this._center_ZMDGJ_Zone.top + 75;
+                }
+                this._back_ZMDGJ_Btn =
+                  this._center_ZMDGJ_Zone.getChildByName("BackBtn");
+                this._continue_ZMDGJ_Btn =
+                  this._center_ZMDGJ_Zone.getChildByName("ContinueBtn");
+                for (var i = 0; i < this._center_ZMDGJ_Zone.numChildren; ++i) {
+                  var ad = this._center_ZMDGJ_Zone
+                    .getChildAt(i)
+                    .getComponent(KRQ_RollSingleAd_1.default);
+                  if (null == ad) continue;
+                  this._roll_ZMDGJ_SingleAds.push(ad);
+                }
+                if (WudianMgr_1.default.Wu_ZMDGJ_dian_ZMDGJ_Flag) {
+                  this.History_ZMDGJ_Btn.visible = false;
+                }
               }
             }
             Game_ZMDGJ_Fail_ZMDGJ_View_ZMDGJ_Template.prototype.onAwake =
@@ -13117,7 +13135,8 @@ var __extends =
                 this.NextLevel();
               };
             Game_ZMDGJ_Fail_ZMDGJ_View_ZMDGJ_Template.prototype.on_ZMDGJ_Continue_ZMDGJ_Btn =
-              function () {
+            function () {
+             
               
                 if (
                   !this._click_ZMDGJ_Tag &&
