@@ -3735,7 +3735,9 @@ var __extends =
             var self = this;
             progressPrec = 100;
             progressBar(100);
-            sendCustomAnalyticsEvent("game_load", {});
+        sendCustomAnalyticsEvent("game_load", {});
+        sendCustomAnalyticsEvent("game_start", {});
+            
             this._loadingView.set_ZMDGJ_Process(1);
             if (Laya.Browser.onMiniGame) {
               WXAPI_1.default._ZMDGJ_wxLogin_ZMDGJ_(function (code) {
@@ -4092,6 +4094,7 @@ var __extends =
           });
           Game_ZMDGJ_Mgr.prototype.onAwake = function () {
             //rewarded ads
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
             
             if (replayInstance == undefined)
               replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(
@@ -4150,6 +4153,7 @@ var __extends =
          Game_ZMDGJ_Mgr.prototype.LoadGameEvent = function (levelNo) {
           // this.CloseOldScene();
           ViewMgr_1.default.ins_ZMDGJ_tance.open_ZMDGJ_View(ViewMgr_1.ViewDef.GameOverView);
+          sendCustomAnalyticsEvent("game_start", {});
         
       };
           Game_ZMDGJ_Mgr.prototype.onStart = function () {
@@ -4392,7 +4396,6 @@ var __extends =
             );
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
 
-            sendCustomAnalyticsEvent("game_load", {});
          
             var _this = this;
             // if (this._bSceneOpen) {
@@ -11835,9 +11838,8 @@ var __extends =
             // alert("skin clicked")
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
 
-            sendCustomAnalyticsEvent("game_start", {});
-              sendCustomAnalyticsEvent("game_level", {level: level});
 
+            sendCustomAnalyticsEvent("game_level", {level: level});
             var _this = this;
             var skinAllDatas = StoreConfig_1.default
               .getInstance()
@@ -12984,8 +12986,30 @@ var __extends =
               if(sessionStorage.getItem("replayGameEvent1") == 1){
                 sessionStorage.removeItem("replayGameEvent1");
          
-           
-                this._bAlive = false;
+                _super.prototype.onStart.call(this);
+                if (WudianMgr_1.default.Wu_ZMDGJ_dian_ZMDGJ_Flag) {
+                  var yPos = this._center_ZMDGJ_Zone.height - 150;
+                  this._back_ZMDGJ_Btn.y = yPos;
+                  this._continue_ZMDGJ_Btn.y = yPos;
+                }
+                var _loop_1 = function (i) {
+                  var ad = this_1._roll_ZMDGJ_SingleAds[i];
+                  Laya.timer.once(150, this_1, function () {
+                    ad.play_ZMDGJ_Ani();
+                  });
+                };
+                var this_1 = this;
+                for (var i = 0; i < this._roll_ZMDGJ_SingleAds.length; ++i) {
+                  _loop_1(i);
+                }
+                var btnMoveTimer = AppSwitchConfig_1.default
+                  .get_ZMDGJ_Instance()
+                  .get_ZMDGJ_App_ZMDGJ_Switch_ZMDGJ_Data().btn_ZMDGJ_Move_ZMDGJ_Timer;
+                var bannerMoveTimer = AppSwitchConfig_1.default
+                  .get_ZMDGJ_Instance()
+                  .get_ZMDGJ_App_ZMDGJ_Switch_ZMDGJ_Data().banner_ZMDGJ_Move_ZMDGJ_Timer;
+                Laya.timer.once(bannerMoveTimer * 1000, this, this.BannerUp);
+                Laya.timer.once(btnMoveTimer * 1000, this, this.BtnUp);
                 GameMgr_1.default
                   .get_ZMDGJ_Instance()
                   .EnterGameScene(function () {
@@ -13019,6 +13043,7 @@ var __extends =
                 if (WudianMgr_1.default.Wu_ZMDGJ_dian_ZMDGJ_Flag) {
                   this.History_ZMDGJ_Btn.visible = false;
                 }
+                
               };
             Game_ZMDGJ_Fail_ZMDGJ_View_ZMDGJ_Template.prototype.onStart =
               function () {

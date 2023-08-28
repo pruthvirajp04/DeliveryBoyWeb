@@ -1641,7 +1641,7 @@ var Button=(function(_super){
 	__proto.changeClips=function(){
 		var img=Loader.getRes(this._skin);
 		if (!img){
-			console.log("lose skin",this._skin);
+			
 			return;
 		};
 		var width=img.sourceWidth;
