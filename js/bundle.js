@@ -13340,23 +13340,24 @@ var __extends =
           };
           Game_ZMDGJ_Win_ZMDGJ_ViewTemplate.prototype.onUpdate = function(){
             if(sessionStorage.getItem("nextLevelEvent1") == 1){
+              
+         
             sessionStorage.removeItem("nextLevelEvent1");
-        
-            this._bAlive = false;
-            User_1.default.set_ZMDGJ_LeveNum(
-              User_1.default.get_ZMDGJ_LeveNum() 
-            );
-            GameMgr_1.default.get_ZMDGJ_Instance().EnterGameScene(function () {
-               ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
-                ViewMgr_1.View_ZMDGJ_Def.GameWinView
+              
+              this._bAlive = false;
+              User_1.default.set_ZMDGJ_LeveNum(
+                User_1.default.get_ZMDGJ_FakerNextLeveNum()
               );
-            });
+              GameMgr_1.default.get_ZMDGJ_Instance().EnterGameScene(function () {
+                 ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
+                  ViewMgr_1.View_ZMDGJ_Def.GameWinView
+                );
+              });
           }
          
           if(sessionStorage.getItem("gotoLevelEvent1") >0){
             let LevelNo = parseInt(sessionStorage.getItem("gotoLevelEvent1"));
             sessionStorage.removeItem("gotoLevelEvent1");
-      
             this._bAlive = false;
             User_1.default.set_ZMDGJ_LeveNum(
               LevelNo 
