@@ -3736,7 +3736,8 @@ var __extends =
             progressPrec = 100;
             progressBar(100);
         sendCustomAnalyticsEvent("game_load", {});
-        sendCustomAnalyticsEvent("game_start", {});
+
+        sessionStorage.setItem("gameStartEvent",1);
             
             this._loadingView.set_ZMDGJ_Process(1);
             if (Laya.Browser.onMiniGame) {
@@ -11838,7 +11839,13 @@ var __extends =
             // alert("skin clicked")
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
 
-
+      
+        if(  sessionStorage.getItem("gameStartEvent")==1)
+        {
+          sessionStorage.removeItem("gameStartEvent");
+         
+        sendCustomAnalyticsEvent("game_start", {});
+        }
             sendCustomAnalyticsEvent("game_level", {level: level});
             var _this = this;
             var skinAllDatas = StoreConfig_1.default
