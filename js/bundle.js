@@ -12021,7 +12021,10 @@ var __extends =
           };
           SkinTips.prototype.onUpdate=function()
           {
+
             if(sessionStorage.getItem("GiveRewardSL") == 1){
+              
+            sendCustomAnalyticsEvent("rewarded_ad", {successCB : 'giveRewardSL',failureCB: 'cancelRewardSL'});
               sessionStorage.removeItem("GiveRewardSL");
               // let level = parseInt(sessionStorage.getItem("SelectedLevel"));
                  var _this = this;
@@ -12057,7 +12060,6 @@ var __extends =
             // alert("button clicked here")
          
       
-            sendCustomAnalyticsEvent("rewarded_ad", {successCB : 'giveRewardSL',failureCB: 'cancelRewardSL'});
             if (!is_rewarded_noFill) {
                 sessionStorage.setItem("reward-type","reward-SL");
                 Laya.SoundManager.muted = true;
