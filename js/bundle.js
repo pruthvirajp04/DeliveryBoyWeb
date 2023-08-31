@@ -4155,7 +4155,7 @@ var __extends =
           // this.CloseOldScene();
           ViewMgr_1.default.ins_ZMDGJ_tance.open_ZMDGJ_View(ViewMgr_1.ViewDef.GameOverView);
           sendCustomAnalyticsEvent("game_start", {});
-        
+   
       };
           Game_ZMDGJ_Mgr.prototype.onStart = function () {
             this.pre_ZMDGJ_Create_ZMDGJ_Game();
@@ -5697,6 +5697,8 @@ var __extends =
             return _this;
           }
           CameraFollow.prototype.onAwake = function () {
+
+
             console.log("设置相机移动");
             this._camera = this.owner;
             this._spriteRole = this.owner.scene.getChildByName("Role");
@@ -11809,7 +11811,13 @@ var __extends =
             return _this;
           }
           SkinTips.prototype.onAwake = function () {
-            
+            if(sessionStorage.getItem("ReplayLevel")==1)
+            {
+              sessionStorage.removeItem("ReplayLevel");
+              let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+        
+              sendCustomAnalyticsEvent("game_replay", {level: level});
+            }
             this._centerZone = this.View_ZMDGJ_.getChildByName("CenterZone");
             var aspectRatio = Laya.stage.width / Laya.stage.height;
             if (aspectRatio < 0.5) {
@@ -11871,6 +11879,7 @@ var __extends =
         sendCustomAnalyticsEvent("game_start", {});
         }
             sendCustomAnalyticsEvent("game_level", {level: level});
+            sessionStorage.setItem("ReplayLevel",1);
             var _this = this;
             var skinAllDatas = StoreConfig_1.default
               .getInstance()
