@@ -11811,13 +11811,7 @@ var __extends =
             return _this;
           }
           SkinTips.prototype.onAwake = function () {
-            if(sessionStorage.getItem("ReplayLevel")==1)
-            {
-              sessionStorage.removeItem("ReplayLevel");
-              let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-        
-              sendCustomAnalyticsEvent("game_replay", {level: level});
-            }
+       
             this._centerZone = this.View_ZMDGJ_.getChildByName("CenterZone");
             var aspectRatio = Laya.stage.width / Laya.stage.height;
             if (aspectRatio < 0.5) {
@@ -11872,11 +11866,21 @@ var __extends =
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
 
       
-        if(  sessionStorage.getItem("gameStartEvent")==1)
-        {
-          sessionStorage.removeItem("gameStartEvent");
+        // if(  sessionStorage.getItem("gameStartEvent")==1)
+        // {
+        //   sessionStorage.removeItem("gameStartEvent");
          
-        sendCustomAnalyticsEvent("game_start", {});
+        // sendCustomAnalyticsEvent("game_start", {});
+        // }
+        if(sessionStorage.getItem("ReplayLevel")==1)
+        {
+          sessionStorage.removeItem("ReplayLevel");
+          let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+    
+          sendCustomAnalyticsEvent("game_replay", {level: level});
+        }
+        else{
+          sendCustomAnalyticsEvent("game_start", {});
         }
             sendCustomAnalyticsEvent("game_level", {level: level});
             sessionStorage.setItem("ReplayLevel",1);
