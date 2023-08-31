@@ -6055,6 +6055,19 @@ var __extends =
               this.LevelStart
             );
           };
+          Level.prototype.onUpdate=function ()
+          {
+            if(sessionStorage.getItem("replayGameEvent1") == 1){
+              sessionStorage.removeItem("replayGameEvent1");
+              this.LevelStart();
+              EventMgr_1.default.ins_ZMDGJ_tance.reg_ZMDGJ_Evemt(
+                EventDef_1.Event_ZMDGJ_Def.Game_On_ZMDGJ_Level_ZMDGJ_Start,
+                this,
+                this.LevelStart
+              );
+
+              }
+          };
           Level.prototype.onDisable = function () {
             EventMgr_1.default.ins_ZMDGJ_tance.remove_ZMDGJ_Event(
               EventDef_1.Event_ZMDGJ_Def.Game_On_ZMDGJ_Level_ZMDGJ_Start,
@@ -6117,6 +6130,7 @@ var __extends =
             }
           };
           Level.prototype.LevelStart = function () {
+           
             this._isStart = true;
           };
           Level.prototype.LevelOver = function (isWin) {
@@ -12992,41 +13006,7 @@ var __extends =
             }
             Game_ZMDGJ_Fail_ZMDGJ_View_ZMDGJ_Template.prototype.onUpdate=function()
             {
-              if(sessionStorage.getItem("replayGameEvent1") == 1){
-                sessionStorage.removeItem("replayGameEvent1");
-         
-                _super.prototype.onStart.call(this);
-                if (WudianMgr_1.default.Wu_ZMDGJ_dian_ZMDGJ_Flag) {
-                  var yPos = this._center_ZMDGJ_Zone.height - 150;
-                  this._back_ZMDGJ_Btn.y = yPos;
-                  this._continue_ZMDGJ_Btn.y = yPos;
-                }
-                var _loop_1 = function (i) {
-                  var ad = this_1._roll_ZMDGJ_SingleAds[i];
-                  Laya.timer.once(150, this_1, function () {
-                    ad.play_ZMDGJ_Ani();
-                  });
-                };
-                var this_1 = this;
-                for (var i = 0; i < this._roll_ZMDGJ_SingleAds.length; ++i) {
-                  _loop_1(i);
-                }
-                var btnMoveTimer = AppSwitchConfig_1.default
-                  .get_ZMDGJ_Instance()
-                  .get_ZMDGJ_App_ZMDGJ_Switch_ZMDGJ_Data().btn_ZMDGJ_Move_ZMDGJ_Timer;
-                var bannerMoveTimer = AppSwitchConfig_1.default
-                  .get_ZMDGJ_Instance()
-                  .get_ZMDGJ_App_ZMDGJ_Switch_ZMDGJ_Data().banner_ZMDGJ_Move_ZMDGJ_Timer;
-                Laya.timer.once(bannerMoveTimer * 1000, this, this.BannerUp);
-                Laya.timer.once(btnMoveTimer * 1000, this, this.BtnUp);
-                GameMgr_1.default
-                  .get_ZMDGJ_Instance()
-                  .EnterGameScene(function () {
-                    ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
-                      ViewMgr_1.View_ZMDGJ_Def.GameWinView
-                    );
-                  });
-                }
+             
           };
             Game_ZMDGJ_Fail_ZMDGJ_View_ZMDGJ_Template.prototype.onAwake =
               function () {
@@ -13424,7 +13404,6 @@ var __extends =
           Game_ZMDGJ_Win_ZMDGJ_ViewTemplate.prototype.onNext_ZMDGJ_Btn =
             function () {
             
-                // alert(level)
               if (
                 !this._click_ZMDGJ_Tag &&
                 WudianMgr_1.default.Wu_ZMDGJ_dian_ZMDGJ_Flag
