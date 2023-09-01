@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Delivery Boy Felicity</title>
+    <title>Delivery Boy</title>
     <meta charset='utf-8' />
     <meta name='renderer' content='webkit' />
     <meta name='viewport' content='width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no'
@@ -30,12 +30,16 @@
             script.src = url;
             document.body.appendChild(script);
         }
+        sessionStorage.setItem("sound_status",1);
         const urlQuery = new URLSearchParams(window.location.search);
         const langParam = urlQuery.get('hl');
         let lang = null;
         if(langParam == "id")
             lang = "IND";
         else lang = "";
+        if(lang=="IND")
+            document.title = "Laki-laki Pengantar";
+        else document.title = "Delivery Boy";
         let progressPrec=0
 
         function load_show()
@@ -91,9 +95,14 @@
             else sessionStorage.setItem("gotoLevel",levelNo);
         }
         function enableSound(isMuted){
-        if(isMuted)
-            Laya.SoundManager.muted = false;
-        else Laya.SoundManager.muted = true;
+        if(isMuted){
+                sessionStorage.setItem("sound_status",1);
+                Laya.SoundManager.muted = false;
+            }    
+            else{
+                sessionStorage.setItem("sound_status",0);
+                Laya.SoundManager.muted = true;
+            }
         }
         function getLoadingPerc(){
          return progressPrec;

@@ -3461,7 +3461,12 @@ var __extends =
           }
           Main.prototype.onVersionLoaded = function () {
             //激活大小图映射，加载小图的时候，如果发现小图在大图合集里面，则优先加载大图合集，而不是小图
-            Laya.AtlasInfoManager.enable(
+            if(lang == "IND")
+              Laya.AtlasInfoManager.enable(
+              "fileconfig_IND.json",
+              Laya.Handler.create(this, this.onConfigLoaded)
+            );
+            else Laya.AtlasInfoManager.enable(
               "fileconfig.json",
               Laya.Handler.create(this, this.onConfigLoaded)
             );
@@ -3492,14 +3497,6 @@ var __extends =
             );
           };
           Main.prototype.initLoadingView = function () {
-            this._loadingUI = new layaMaxUI_1.ui.View.LoadingUI();
-            Laya.stage.addChild(this._loadingUI);
-            this._loadingUI.width = Laya.stage.width;
-            this._loadingUI.height = Laya.stage.height;
-            this._loadingView = this._loadingUI.getComponent(
-              LoadingView_1.default
-            );
-            this._loadingView.set_ZMDGJ_Process(0);
           };
           Main.prototype.postResToOpenDataContext = function (onComplate) {
             if (Laya.Browser.onMiniGame) {
@@ -3537,184 +3534,7 @@ var __extends =
             this.preLoad();
             var resource = this._preLoadRes;
             var self = this;
-            if (Laya.Browser.onMiniGame) {
-              //开始加载分包
-              var loadSubResTask = Laya.Browser.window["wx"].loadSubpackage({
-                name: "subRes",
-                success: function (res) {
-                  // 分包加载成功,开始预加载资源
-                  if (resource.length > 0) {
-                    Laya.loader.load(
-                      resource,
-                      Laya.Handler.create(_this, function () {
-                        self.onLoadResComplate(); //预加载完成
-                      }),
-                      Laya.Handler.create(_this, function (res) {
-                        //todo:跟新进度条
-                        self._loadingView.set_ZMDGJ_Process(res / 2 + 0.5);
-                      })
-                    );
-                  } else {
-                    // 一个分包时策略
-                    // self.onLoadResComplate();//预加载完成
-                    // 两个分包时策略
-                    loadSubResTask = Laya.Browser.window["wx"].loadSubpackage({
-                      name: "subRes1",
-                      success: function (res) {
-                        // 分包加载成功,开始预加载资源
-                        if (resource.length > 0) {
-                          Laya.loader.load(
-                            resource,
-                            Laya.Handler.create(_this, function () {
-                              self.onLoadResComplate(); //预加载完成
-                            }),
-                            Laya.Handler.create(_this, function (res) {
-                              //todo:跟新进度条
-                              self._loadingView.set_ZMDGJ_Process(
-                                res / 2 + 0.5
-                              );
-                            })
-                          );
-                        } else {
-                          self.onLoadResComplate(); //预加载完成
-                        }
-                      },
-                      fail: function (res) {
-                        _this.loadRes(); //加载失败，重新加载
-                      },
-                    });
-                  }
-                },
-                fail: function (res) {
-                  _this.loadRes(); //加载失败，重新加载
-                },
-              });
-              loadSubResTask.onProgressUpdate(function (res) {
-                self._loadingView.set_ZMDGJ_Process(res / 2);
-              });
-            } else if (Laya.Browser.onQGMiniGame) {
-              //oppo小游戏
-              //开始加载分包
-              var loadSubResTask = Laya.Browser.window["qg"].loadSubpackage({
-                name: "subRes",
-                success: function (res) {
-                  // 分包加载成功,开始预加载资源
-                  if (resource.length > 0) {
-                    Laya.loader.load(
-                      resource,
-                      Laya.Handler.create(_this, function () {
-                        self.onLoadResComplate(); //预加载完成
-                      }),
-                      Laya.Handler.create(_this, function (res) {
-                        //todo:跟新进度条
-                        self._loadingView.set_ZMDGJ_Process(res / 2 + 0.5);
-                      })
-                    );
-                  } else {
-                    // 一个分包时策略
-                    // self.onLoadResComplate();//预加载完成
-                    // 两个分包时策略
-                    var loadSubResTask = Laya.Browser.window[
-                      "qg"
-                    ].loadSubpackage({
-                      name: "subRes1",
-                      success: function (res) {
-                        // 分包加载成功,开始预加载资源
-                        if (resource.length > 0) {
-                          Laya.loader.load(
-                            resource,
-                            Laya.Handler.create(_this, function () {
-                              self.onLoadResComplate(); //预加载完成
-                            }),
-                            Laya.Handler.create(_this, function (res) {
-                              //todo:跟新进度条
-                              self._loadingView.set_ZMDGJ_Process(
-                                res / 2 + 0.5
-                              );
-                            })
-                          );
-                        } else {
-                          self.onLoadResComplate(); //预加载完成
-                        }
-                      },
-                      fail: function (res) {
-                        _this.loadRes(); //加载失败，重新加载
-                      },
-                    });
-                  }
-                },
-                fail: function (res) {
-                  _this.loadRes(); //加载失败，重新加载
-                },
-              });
-              loadSubResTask.onProgressUpdate(function (res) {
-                // 加载进度百分比
-                var progress = res["progress"];
-                // 下载数据
-                var totalBytesWritten = res["totalBytesWritten"];
-                // 总长度
-                var totalBytesExpectedToWrite =
-                  res["totalBytesExpectedToWrite"];
-                self._loadingView.set_ZMDGJ_Process(progress / 2);
-              });
-            } else if (Laya.Browser.onQQMiniGame) {
-              //开始加载分包
-              var loadSubResTask = Laya.Browser.window["qq"].loadSubpackage({
-                name: "subRes",
-                success: function (res) {
-                  // 分包加载成功,开始预加载资源
-                  if (resource.length > 0) {
-                    Laya.loader.load(
-                      resource,
-                      Laya.Handler.create(_this, function () {
-                        self.onLoadResComplate(); //预加载完成
-                      }),
-                      Laya.Handler.create(_this, function (res) {
-                        //todo:跟新进度条
-                        self._loadingView.set_ZMDGJ_Process(res / 2 + 0.5);
-                      })
-                    );
-                  } else {
-                    // 一个分包时策略
-                    // self.onLoadResComplate();//预加载完成
-                    // 两个分包时策略
-                    loadSubResTask = Laya.Browser.window["qq"].loadSubpackage({
-                      name: "subRes1",
-                      success: function (res) {
-                        // 分包加载成功,开始预加载资源
-                        if (resource.length > 0) {
-                          Laya.loader.load(
-                            resource,
-                            Laya.Handler.create(_this, function () {
-                              self.onLoadResComplate(); //预加载完成
-                            }),
-                            Laya.Handler.create(_this, function (res) {
-                              //todo:跟新进度条
-                              self._loadingView.set_ZMDGJ_Process(
-                                res / 2 + 0.5
-                              );
-                            })
-                          );
-                        } else {
-                          self.onLoadResComplate(); //预加载完成
-                        }
-                      },
-                      fail: function (res) {
-                        _this.loadRes(); //加载失败，重新加载
-                      },
-                    });
-                  }
-                },
-                fail: function (res) {
-                  _this.loadRes(); //加载失败，重新加载
-                },
-              });
-              loadSubResTask.onProgressUpdate(function (res) {
-                self._loadingView.set_ZMDGJ_Process(res / 2);
-              });
-            } else {
-              //字节跳动没有分包
-              if (resource.length > 0) {
+            if (resource.length > 0) {
                 Laya.loader.load(
                   resource,
                   Laya.Handler.create(this, function () {
@@ -3728,7 +3548,6 @@ var __extends =
               } else {
                 self.onLoadResComplate();
               }
-            }
           };
           Main.prototype.onLoadResComplate = function () {
             var _this = this;
@@ -3739,7 +3558,6 @@ var __extends =
 
         sessionStorage.setItem("gameStartEvent",1);
             
-            this._loadingView.set_ZMDGJ_Process(1);
             if (Laya.Browser.onMiniGame) {
               WXAPI_1.default._ZMDGJ_wxLogin_ZMDGJ_(function (code) {
                 var _this = this;
@@ -4096,17 +3914,7 @@ var __extends =
           Game_ZMDGJ_Mgr.prototype.onAwake = function () {
             //rewarded ads
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-            
-            if (replayInstance == undefined)
-              replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(
-                replayObj,
-                Game_ZMDGJ_Mgr.prototype.rewardedCallbacks
-              );
-            if (rewardInstance == undefined)
-              rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(
-                rewardObj,
-                Game_ZMDGJ_Mgr.prototype.rewardedCallbacks
-              );
+          
             MaiLiang_1.default.Get_ZMDGJ_Mai_ZMDGJ_Liang_ZMDGJ_OpenId(
               function (res) {
                 console.log("GameUI 买量数据上报成功");
@@ -4155,6 +3963,16 @@ var __extends =
           // this.CloseOldScene();
           ViewMgr_1.default.ins_ZMDGJ_tance.open_ZMDGJ_View(ViewMgr_1.ViewDef.GameOverView);
           sendCustomAnalyticsEvent("game_start", {});
+          if (replayInstance == undefined)
+              replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(
+                replayObj,
+                Game_ZMDGJ_Mgr.prototype.rewardedCallbacks
+              );
+            if (rewardInstance == undefined)
+              rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(
+                rewardObj,
+                Game_ZMDGJ_Mgr.prototype.rewardedCallbacks
+              );
    
       };
           Game_ZMDGJ_Mgr.prototype.onStart = function () {
@@ -4225,6 +4043,7 @@ var __extends =
             });
 
             obj.adInstance?.registerCallback("onAdClosed", (data) => {
+              if(sessionStorage.getItem("sound_status") == 1)
               Laya.SoundManager.muted = false;
               //console.log('onAdClosed Rewarded CALLBACK', data);
 
@@ -11574,8 +11393,10 @@ var __extends =
               "",
               true
             );
+            let holdSwipe = (lang == "IND") ? "ClickGetPrize/NewProject_IND.png" : "ClickGetPrize/NewProject.png";
+            console.log(holdSwipe);
             Laya.loader.load(
-              "ClickGetPrize/NewProject.png",
+              holdSwipe,
               Laya.Handler.create(self, function (texture) {
                 texture.bitmap.lock = true;
                 Laya.loader.load(
@@ -13896,7 +13717,10 @@ var __extends =
             return _this;
           }
           Ani.prototype.onEnable = function () {
-            var _name = "subRes/Ani/NewProject.sk";
+            var _name = "subRes/Ani/NewProject.sk"
+            if(lang == "IND")
+            var _name = "subRes/Ani_IND/NewProject.sk";
+            else var _name = "subRes/Ani/NewProject.sk";
             this._mArmature = new Laya.Skeleton();
             this.owner.addChild(this._mArmature);
             this._mArmature.load(
@@ -15138,118 +14962,7 @@ var __extends =
                 _super.prototype.createChildren.call(this);
                 this.createView(LoadingUI.uiView);
               };
-              LoadingUI.uiView = {
-                type: "Scene",
-                props: {
-                  width: 750,
-                  top: 0,
-                  right: 0,
-                  left: 0,
-                  height: 1334,
-                  bottom: 0,
-                },
-                compId: 2,
-                child: [
-                  {
-                    type: "Clip",
-                    props: {
-                      y: 0,
-                      x: 1,
-                      width: 750,
-                      skin: "Loading/矩形 1 拷贝.png",
-                      name: "Bg",
-                      height: 1334,
-                    },
-                    compId: 6,
-                    child: [
-                      {
-                        type: "Clip",
-                        props: {
-                          right: 0,
-                          name: "BottomZone",
-                          left: 0,
-                          height: 570,
-                          bottom: 99,
-                        },
-                        compId: 23,
-                        child: [
-                          {
-                            type: "Clip",
-                            props: {
-                              y: 327,
-                              x: 376,
-                              width: 615,
-                              skin: "Loading/loadingxiatiao.png",
-                              pivotY: 22,
-                              pivotX: 308,
-                              name: "processBarBg",
-                              height: 44,
-                              sizeGrid: "0,25,0,25",
-                            },
-                            compId: 8,
-                            child: [
-                              {
-                                type: "Clip",
-                                props: {
-                                  width: 594,
-                                  skin: "Loading/loadingshangtiao.png",
-                                  pivotY: 13,
-                                  name: "processBar",
-                                  left: 11,
-                                  height: 26,
-                                  bottom: 8,
-                                  sizeGrid: "0,12,0,12",
-                                },
-                                compId: 5,
-                              },
-                              {
-                                type: "Sprite",
-                                props: {
-                                  y: -23,
-                                  x: 308,
-                                  width: 143,
-                                  texture: "Loading/资源加载中....png",
-                                  pivotY: 12,
-                                  pivotX: 72,
-                                  height: 23,
-                                },
-                                compId: 10,
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                      {
-                        type: "Clip",
-                        props: {
-                          top: 200,
-                          skin: "Loading/标志.png",
-                          name: "Logo",
-                          centerX: 0,
-                        },
-                        compId: 24,
-                      },
-                    ],
-                  },
-                  {
-                    type: "Script",
-                    props: {
-                      y: 0,
-                      x: 0,
-                      runtime: "View/LoadingView/LoadingView.ts",
-                    },
-                    compId: 7,
-                  },
-                ],
-                loadList: [
-                  "Loading/矩形 1 拷贝.png",
-                  "Loading/loadingxiatiao.png",
-                  "Loading/loadingshangtiao.png",
-                  "Loading/资源加载中....png",
-                  "Loading/标志.png",
-                ],
-                loadList3D: [],
-              };
+              LoadingUI.uiView = { "type": "Scene", "props": { "width": 750, "top": 0, "right": 0, "left": 0, "height": 1334, "bottom": 0 }, "compId": 2, "child": [], "loadList": [], "loadList3D": [] };
               return LoadingUI;
             })(Scene);
             View.LoadingUI = LoadingUI;
