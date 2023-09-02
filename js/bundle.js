@@ -3961,8 +3961,10 @@ var __extends =
           };
          Game_ZMDGJ_Mgr.prototype.LoadGameEvent = function (levelNo) {
           // this.CloseOldScene();
+        
+          
           ViewMgr_1.default.ins_ZMDGJ_tance.open_ZMDGJ_View(ViewMgr_1.ViewDef.GameOverView);
-          sendCustomAnalyticsEvent("game_start", {});
+          // sendCustomAnalyticsEvent("game_start", {});
           if (replayInstance == undefined)
               replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(
                 replayObj,
@@ -4210,13 +4212,19 @@ var __extends =
               );
             };
           Game_ZMDGJ_Mgr.prototype.EnterGameScene = function (onComplate) {
+
             sessionStorage.setItem(
               "SelectedLevel",
               parseInt(User_1.default.get_ZMDGJ_FakerLeveNum())
             );
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
 
-         
+     
+            if(sessionStorage.getItem("ReplayAnalytics") == 1)
+            {
+              sendCustomAnalyticsEvent("game_replay", {level: level});
+              sessionStorage.setItem("loadtime",1);
+            }
             var _this = this;
             // if (this._bSceneOpen) {
             //   return;
@@ -5879,6 +5887,7 @@ var __extends =
           Level.prototype.onUpdate=function ()
           {
             if(sessionStorage.getItem("replayGameEvent1") == 1){
+              alert("r")
               sessionStorage.removeItem("replayGameEvent1");
               this.LevelStart();
               EventMgr_1.default.ins_ZMDGJ_tance.reg_ZMDGJ_Evemt(
@@ -6890,6 +6899,7 @@ var __extends =
                     sessionStorage.setItem("gotoHomeEvent1",1);
           }
           if(sessionStorage.getItem("nextLevelEvent") == 1){
+
             sessionStorage.removeItem("nextLevelEvent");
             GameMgr_1.default
                     .get_ZMDGJ_Instance()
@@ -11699,24 +11709,15 @@ var __extends =
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
 
       
-        // if(  sessionStorage.getItem("gameStartEvent")==1)
-        // {
-        //   sessionStorage.removeItem("gameStartEvent");
-         
-        // sendCustomAnalyticsEvent("game_start", {});
-        // }
-        if(sessionStorage.getItem("ReplayLevel")==1)
+        if(  sessionStorage.getItem("gameStartEvent")==1 && sessionStorage.getItem("loadtime")!=1)
         {
-          sessionStorage.removeItem("ReplayLevel");
-          let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-    
-          sendCustomAnalyticsEvent("game_replay", {level: level});
-        }
-        else{
-          sendCustomAnalyticsEvent("game_start", {});
-        }
+          sessionStorage.removeItem("gameStartEvent");
+         
+        sendCustomAnalyticsEvent("game_start", {});
+      }
+      sessionStorage.setItem("ReplayAnalytics",1);
+
             sendCustomAnalyticsEvent("game_level", {level: level});
-            sessionStorage.setItem("ReplayLevel",1);
             var _this = this;
             var skinAllDatas = StoreConfig_1.default
               .getInstance()
@@ -13282,6 +13283,7 @@ var __extends =
               this.NextLevel();
             };
           Game_ZMDGJ_Win_ZMDGJ_ViewTemplate.prototype.NextLevel = function () {
+            sessionStorage.setItem("ReplayAnalytics",0);
      
             this._bAlive = false;
             User_1.default.set_ZMDGJ_LeveNum(
