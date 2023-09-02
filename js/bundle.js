@@ -9707,12 +9707,16 @@ var __extends =
             return JSON.stringify(User_ZMDGJ_._game_ZMDGJ_Data);
           };
           User_ZMDGJ_.test_ZMDGJ_InitUser = function () {
+            if(Laya.LocalStorage.getItem("Level")){}
+        else Laya.LocalStorage.setItem("Level", 1);
             User_ZMDGJ_._game_ZMDGJ_Data.levelNum = 1;
             User_ZMDGJ_._game_ZMDGJ_Data.moneyNum = 0;
             User_ZMDGJ_._game_ZMDGJ_Data.crystalNum = 1000;
             this.set_ZMDGJ_FakerLeveNum();
           };
           User_ZMDGJ_.initi_ZMDGJ_User = function (data) {
+            if(Laya.LocalStorage.getItem("Level")){}
+            else Laya.LocalStorage.setItem("Level", 1);
             if (data && 0 != data) {
               User_ZMDGJ_._game_ZMDGJ_Data.levelNum = data.levelNum;
               User_ZMDGJ_._game_ZMDGJ_Data.moneyNum = data.moneyNum;
@@ -9735,14 +9739,18 @@ var __extends =
           };
           User_ZMDGJ_.set_ZMDGJ_LeveNum = function (levelNum) {
             //lets add after every 3 levels
+            Laya.LocalStorage.setItem("Level", levelNum.toString());
 
             User_ZMDGJ_._game_ZMDGJ_Data.levelNum = levelNum;
             this.set_ZMDGJ_FakerLeveNum();
           };
           User_ZMDGJ_.get_ZMDGJ_LeveNum = function () {
-            return User_ZMDGJ_._game_ZMDGJ_Data.levelNum;
+            
+            return parseInt(Laya.LocalStorage.getItem("Level"));
           };
           User_ZMDGJ_.set_ZMDGJ_FakerLeveNum = function () {
+         
+         
             if (User_ZMDGJ_.fakerLeveNum != User_ZMDGJ_.fakerNextLeveNum) {
               User_ZMDGJ_.fakerLeveNum =
                 User_ZMDGJ_._game_ZMDGJ_Data.levelNum <= User_ZMDGJ_.maxLeveNum
@@ -9780,10 +9788,14 @@ var __extends =
             }
           };
           User_ZMDGJ_.get_ZMDGJ_FakerNextLeveNum = function () {
+           
             return User_ZMDGJ_.fakerNextLeveNum;
           };
           User_ZMDGJ_.get_ZMDGJ_FakerLeveNum = function () {
-            return User_ZMDGJ_.fakerLeveNum;
+        var myNumberStr = Laya.LocalStorage.getItem("Level");
+        var myNumber = parseInt(myNumberStr);
+
+            return myNumber;
           };
           User_ZMDGJ_.add_ZMDGJ_Money = function (add) {
             add = Math.ceil(add);
