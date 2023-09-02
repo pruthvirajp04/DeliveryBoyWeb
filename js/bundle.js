@@ -4251,7 +4251,7 @@ var __extends =
               })
             );
             //commented music here for development purpose
-            // SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
+            SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
           };
 
           Game_ZMDGJ_Mgr.prototype.GameOver = function (bWin) {
@@ -5887,7 +5887,6 @@ var __extends =
           Level.prototype.onUpdate=function ()
           {
             if(sessionStorage.getItem("replayGameEvent1") == 1){
-              alert("r")
               sessionStorage.removeItem("replayGameEvent1");
               this.LevelStart();
               EventMgr_1.default.ins_ZMDGJ_tance.reg_ZMDGJ_Evemt(
@@ -9756,7 +9755,7 @@ var __extends =
           };
           User_ZMDGJ_.get_ZMDGJ_LeveNum = function () {
             
-            return parseInt(Laya.LocalStorage.getItem("Level"));
+            return User_ZMDGJ_._game_ZMDGJ_Data.levelNum;
           };
           User_ZMDGJ_.set_ZMDGJ_FakerLeveNum = function () {
          
@@ -9802,10 +9801,7 @@ var __extends =
             return User_ZMDGJ_.fakerNextLeveNum;
           };
           User_ZMDGJ_.get_ZMDGJ_FakerLeveNum = function () {
-        var myNumberStr = Laya.LocalStorage.getItem("Level");
-        var myNumber = parseInt(myNumberStr);
-
-            return myNumber;
+            return User_ZMDGJ_.fakerLeveNum;
           };
           User_ZMDGJ_.add_ZMDGJ_Money = function (add) {
             add = Math.ceil(add);
@@ -13007,7 +13003,12 @@ var __extends =
               function () {
                 let level = parseInt(sessionStorage.getItem("SelectedLevel"));
                 sendCustomAnalyticsEvent('game_end', {level: level});
-                sendCustomAnalyticsEvent("game_replay", {level: level});
+                if( sessionStorage.getItem("loadtime")!=1)
+                {
+                  
+                  sendCustomAnalyticsEvent("game_replay", {level: level});
+              }
+             
                 this._bAlive = false;
                 GameMgr_1.default
                   .get_ZMDGJ_Instance()
