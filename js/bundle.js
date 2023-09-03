@@ -5884,29 +5884,7 @@ var __extends =
               this.LevelStart
             );
           };
-          Level.prototype.onUpdate=function ()
-          {
-            if(sessionStorage.getItem("replayGameEvent1") == 1){
-              sessionStorage.removeItem("replayGameEvent1");
-              this.LevelStart();
-              EventMgr_1.default.ins_ZMDGJ_tance.reg_ZMDGJ_Evemt(
-                EventDef_1.Event_ZMDGJ_Def.Game_On_ZMDGJ_Level_ZMDGJ_Start,
-                this,
-                this.LevelStart
-              );
-
-              }
-              if(sessionStorage.getItem("gotoHomeEvent1") == 1){
-                sessionStorage.removeItem("gotoHomeEvent1");
-                this.LevelStart();
-                EventMgr_1.default.ins_ZMDGJ_tance.reg_ZMDGJ_Evemt(
-                  EventDef_1.Event_ZMDGJ_Def.Game_On_ZMDGJ_Level_ZMDGJ_Start,
-                  this,
-                  this.LevelStart
-                );
-  
-                }
-          };
+      
           Level.prototype.onDisable = function () {
             EventMgr_1.default.ins_ZMDGJ_tance.remove_ZMDGJ_Event(
               EventDef_1.Event_ZMDGJ_Def.Game_On_ZMDGJ_Level_ZMDGJ_Start,
