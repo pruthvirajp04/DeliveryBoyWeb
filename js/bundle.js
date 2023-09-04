@@ -4229,11 +4229,14 @@ var __extends =
             // if (this._bSceneOpen) {
             //   return;
             // }
+            do {
+              var num = User_1.default.get_ZMDGJ_FakerLeveNum();
+              num = Math.ceil(Math.random() * 20);
+            } while (num <= 0 || num > 20);
+           num = parseInt(num);
             var levelScene =
               AppConfig_1.default.Res_ZMDGJ_Server +
-              "/LayaScene/Conventional/" +
-              User_1.default.get_ZMDGJ_FakerLeveNum().toString() +
-              ".ls";
+              `/LayaScene/Conventional/${num}.ls`;
             Laya.Scene3D.load(
               levelScene,
               Laya.Handler.create(this, function (scene) {
@@ -9733,7 +9736,7 @@ var __extends =
           };
           User_ZMDGJ_.get_ZMDGJ_LeveNum = function () {
             
-            return User_ZMDGJ_._game_ZMDGJ_Data.levelNum;
+            return parseInt( Laya.LocalStorage.getItem("Level"));
           };
           User_ZMDGJ_.set_ZMDGJ_FakerLeveNum = function () {
          
@@ -9779,7 +9782,14 @@ var __extends =
             return User_ZMDGJ_.fakerNextLeveNum;
           };
           User_ZMDGJ_.get_ZMDGJ_FakerLeveNum = function () {
-            return User_ZMDGJ_.fakerLeveNum;
+            var myNumberStr = Laya.LocalStorage.getItem("Level");
+        if (myNumberStr === null) {
+            myNumber = 1;
+        }
+        else {
+            var myNumber = parseInt(myNumberStr);
+        }
+        return myNumber;
           };
           User_ZMDGJ_.add_ZMDGJ_Money = function (add) {
             add = Math.ceil(add);
