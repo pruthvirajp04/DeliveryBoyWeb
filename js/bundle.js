@@ -13387,10 +13387,7 @@ var __extends =
           }
       
           GameInfo.prototype.onAwake = function () {
-            if(sessionStorage.getItem("GiveRewardSL") == 1){
-              sessionStorage.removeItem("GiveRewardSL");
-          
-         }
+        
             this._center_ZMDGJ_Zone = this.owner;
             this._level_ZMDGJ_Num = this._center_ZMDGJ_Zone
               .getChildByName("LevelInfo")
