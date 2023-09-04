@@ -6948,13 +6948,7 @@ var __extends =
           };
           Role.prototype.onUpdate = function () {
       
-          if(sessionStorage.getItem("gotoHomeEvent") == 1){
-            sessionStorage.removeItem("gotoHomeEvent");
-            GameMgr_1.default
-                    .get_ZMDGJ_Instance()
-                    .CurLevel.LevelOver(false);
-                    sessionStorage.setItem("gotoHomeEvent1",1);
-          }
+       
           if(sessionStorage.getItem("nextLevelEvent") == 1){
 
             sessionStorage.removeItem("nextLevelEvent");
