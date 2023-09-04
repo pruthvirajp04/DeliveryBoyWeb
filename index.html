@@ -75,9 +75,7 @@
             document.getElementById('pauseOverlay').remove();
         }
         function replayGameEvent(){
-            if((sessionStorage.getItem("CurrentScreen")=="MainMenu")||(sessionStorage.getItem("CurrentScreen")=="SkinShop")||(sessionStorage.getItem("CurrentScreen")=="LevelSelector")){}
-            else if(sessionStorage.getItem("CurrentScreen")=="GameOver") {sessionStorage.setItem("replayGameEvent1",1);}
-            else sessionStorage.setItem("replayGameEvent",1);
+            location.reload();
         }
         function nextLevelEvent(){
             if((sessionStorage.getItem("CurrentScreen")=="MainMenu")||(sessionStorage.getItem("CurrentScreen")=="SkinShop")||(sessionStorage.getItem("CurrentScreen")=="LevelSelector")){}
@@ -85,9 +83,7 @@
             else sessionStorage.setItem("nextLevelEvent",1);
         }
         function gotoHomeEvent(){
-            if((sessionStorage.getItem("CurrentScreen")=="MainMenu")||(sessionStorage.getItem("CurrentScreen")=="SkinShop")||(sessionStorage.getItem("CurrentScreen")=="LevelSelector")){}
-            else if(sessionStorage.getItem("CurrentScreen")=="GameOver") {sessionStorage.setItem("gotoHomeEvent1",1);}
-            else sessionStorage.setItem("gotoHomeEvent",1);
+            location.reload();
         }
         function gotoLevel(levelNo){
             if((sessionStorage.getItem("CurrentScreen")=="MainMenu")||(sessionStorage.getItem("CurrentScreen")=="SkinShop")||(sessionStorage.getItem("CurrentScreen")=="LevelSelector")){}
