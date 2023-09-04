@@ -4211,6 +4211,85 @@ var __extends =
                 }
               );
             };
+            Game_ZMDGJ_Mgr.prototype.onUpdate = function (onComplate)
+            {
+              if(sessionStorage.getItem("replayGameEvent") == 1){
+                sessionStorage.removeItem("replayGameEvent");
+                var _this = this;
+                // if (this._bSceneOpen) {
+                //   return;
+                // }
+                var num = User_1.default.get_ZMDGJ_FakerLeveNum();
+                if(num>20)
+                {
+    
+                  do {
+                    num = Math.ceil(Math.random() * 20);
+                  } while (num <= 0 || num > 20);
+                 num = parseInt(num);
+                }
+                var levelScene =
+                  AppConfig_1.default.Res_ZMDGJ_Server +
+                  `/LayaScene/Conventional/${num}.ls`;
+                Laya.Scene3D.load(
+                  levelScene,
+                  Laya.Handler.create(this, function (scene) {
+                    console.log(
+                      "GameMgr.EnterGameScene : " + levelScene + " loaded"
+                    );
+                    Laya.stage.addChild(scene);
+                    _this._curLevel = scene.addComponent(Level_1.default);
+                    ViewMgr_1.default.ins_ZMDGJ_tance.open_ZMDGJ_View(
+                      ViewMgr_1.View_ZMDGJ_Def.MainView,
+                      null,
+                      onComplate
+                    );
+                    _this._bSceneOpen = true;
+                  })
+                );
+                //commented music here for development purpose
+                SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
+                        sessionStorage.setItem("replayGameEvent1",1);
+              }
+              if(sessionStorage.getItem("gotoHomeEvent") == 1){
+                sessionStorage.removeItem("gotoHomeEvent");
+                var _this = this;
+                // if (this._bSceneOpen) {
+                //   return;
+                // }
+                var num = User_1.default.get_ZMDGJ_FakerLeveNum();
+                if(num>20)
+                {
+    
+                  do {
+                    num = Math.ceil(Math.random() * 20);
+                  } while (num <= 0 || num > 20);
+                 num = parseInt(num);
+                }
+                var levelScene =
+                  AppConfig_1.default.Res_ZMDGJ_Server +
+                  `/LayaScene/Conventional/${num}.ls`;
+                Laya.Scene3D.load(
+                  levelScene,
+                  Laya.Handler.create(this, function (scene) {
+                    console.log(
+                      "GameMgr.EnterGameScene : " + levelScene + " loaded"
+                    );
+                    Laya.stage.addChild(scene);
+                    _this._curLevel = scene.addComponent(Level_1.default);
+                    ViewMgr_1.default.ins_ZMDGJ_tance.open_ZMDGJ_View(
+                      ViewMgr_1.View_ZMDGJ_Def.MainView,
+                      null,
+                      onComplate
+                    );
+                    _this._bSceneOpen = true;
+                  })
+                );
+                //commented music here for development purpose
+                SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
+                        sessionStorage.setItem("replayGameEvent1",1);
+              }
+            }
           Game_ZMDGJ_Mgr.prototype.EnterGameScene = function (onComplate) {
 
             sessionStorage.setItem(
@@ -6868,13 +6947,7 @@ var __extends =
             // this.Collision(collision);
           };
           Role.prototype.onUpdate = function () {
-            if(sessionStorage.getItem("replayGameEvent") == 1){
-            sessionStorage.removeItem("replayGameEvent");
-            GameMgr_1.default
-                    .get_ZMDGJ_Instance()
-                    .CurLevel.LevelOver(false);
-                    sessionStorage.setItem("replayGameEvent1",1);
-          }
+      
           if(sessionStorage.getItem("gotoHomeEvent") == 1){
             sessionStorage.removeItem("gotoHomeEvent");
             GameMgr_1.default
