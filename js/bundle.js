@@ -4229,11 +4229,15 @@ var __extends =
             // if (this._bSceneOpen) {
             //   return;
             // }
-            do {
-              var num = User_1.default.get_ZMDGJ_FakerLeveNum();
-              num = Math.ceil(Math.random() * 20);
-            } while (num <= 0 || num > 20);
-           num = parseInt(num);
+            var num = User_1.default.get_ZMDGJ_FakerLeveNum();
+            if(num>20)
+            {
+
+              do {
+                num = Math.ceil(Math.random() * 20);
+              } while (num <= 0 || num > 20);
+             num = parseInt(num);
+            }
             var levelScene =
               AppConfig_1.default.Res_ZMDGJ_Server +
               `/LayaScene/Conventional/${num}.ls`;
