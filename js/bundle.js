@@ -3522,6 +3522,15 @@ var __extends =
           Main.prototype.preLoad = function () {
             //这里添加你需要预加载的资源
             //this._preLoadRes.push({ url: AppConfig.ResServer + "/json/example.json", type: Laya.Loader.JSON });
+            if(sessionStorage.getItem("replayGameEvent") == 1){
+              sessionStorage.removeItem("replayGameEvent");
+              this._preLoadRes.push({
+                url:
+                  AppConfig_1.default.Local_ZMDGJ_Test_ZMDGJ_ReServer +
+                  "/json/storeconfig.json",
+                type: Laya.Loader.JSON,
+              });
+            }
             this._preLoadRes.push({
               url:
                 AppConfig_1.default.Local_ZMDGJ_Test_ZMDGJ_ReServer +
@@ -3550,6 +3559,7 @@ var __extends =
               }
           };
           Main.prototype.onLoadResComplate = function () {
+          
             var _this = this;
             var self = this;
             progressPrec = 100;
@@ -4211,85 +4221,7 @@ var __extends =
                 }
               );
             };
-            Game_ZMDGJ_Mgr.prototype.onUpdate = function (onComplate)
-            {
-              if(sessionStorage.getItem("replayGameEvent") == 1){
-                sessionStorage.removeItem("replayGameEvent");
-                var _this = this;
-                // if (this._bSceneOpen) {
-                //   return;
-                // }
-                var num = User_1.default.get_ZMDGJ_FakerLeveNum();
-                if(num>20)
-                {
-    
-                  do {
-                    num = Math.ceil(Math.random() * 20);
-                  } while (num <= 0 || num > 20);
-                 num = parseInt(num);
-                }
-                var levelScene =
-                  AppConfig_1.default.Res_ZMDGJ_Server +
-                  `/LayaScene/Conventional/${num}.ls`;
-                Laya.Scene3D.load(
-                  levelScene,
-                  Laya.Handler.create(this, function (scene) {
-                    console.log(
-                      "GameMgr.EnterGameScene : " + levelScene + " loaded"
-                    );
-                    Laya.stage.addChild(scene);
-                    _this._curLevel = scene.addComponent(Level_1.default);
-                    ViewMgr_1.default.ins_ZMDGJ_tance.open_ZMDGJ_View(
-                      ViewMgr_1.View_ZMDGJ_Def.MainView,
-                      null,
-                      onComplate
-                    );
-                    _this._bSceneOpen = true;
-                  })
-                );
-                //commented music here for development purpose
-                SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
-                        sessionStorage.setItem("replayGameEvent1",1);
-              }
-              if(sessionStorage.getItem("gotoHomeEvent") == 1){
-                sessionStorage.removeItem("gotoHomeEvent");
-                var _this = this;
-                // if (this._bSceneOpen) {
-                //   return;
-                // }
-                var num = User_1.default.get_ZMDGJ_FakerLeveNum();
-                if(num>20)
-                {
-    
-                  do {
-                    num = Math.ceil(Math.random() * 20);
-                  } while (num <= 0 || num > 20);
-                 num = parseInt(num);
-                }
-                var levelScene =
-                  AppConfig_1.default.Res_ZMDGJ_Server +
-                  `/LayaScene/Conventional/${num}.ls`;
-                Laya.Scene3D.load(
-                  levelScene,
-                  Laya.Handler.create(this, function (scene) {
-                    console.log(
-                      "GameMgr.EnterGameScene : " + levelScene + " loaded"
-                    );
-                    Laya.stage.addChild(scene);
-                    _this._curLevel = scene.addComponent(Level_1.default);
-                    ViewMgr_1.default.ins_ZMDGJ_tance.open_ZMDGJ_View(
-                      ViewMgr_1.View_ZMDGJ_Def.MainView,
-                      null,
-                      onComplate
-                    );
-                    _this._bSceneOpen = true;
-                  })
-                );
-                //commented music here for development purpose
-                SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
-                        sessionStorage.setItem("replayGameEvent1",1);
-              }
-            }
+           
           Game_ZMDGJ_Mgr.prototype.EnterGameScene = function (onComplate) {
 
             sessionStorage.setItem(
@@ -4337,7 +4269,7 @@ var __extends =
               })
             );
             //commented music here for development purpose
-            SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
+            // SoundMgr_1.default.ins_ZMDGJ_tance.play_ZMDGJ_BGM("BGM");
           };
 
           Game_ZMDGJ_Mgr.prototype.GameOver = function (bWin) {
@@ -6948,7 +6880,15 @@ var __extends =
           };
           Role.prototype.onUpdate = function () {
       
-       
+            if(sessionStorage.getItem("gotoHomeEvent") == 1){
+
+              sessionStorage.removeItem("gotoHomeEvent");
+              GameMgr_1.default
+                      .get_ZMDGJ_Instance()
+                      .CurLevel.LevelOver(false);
+                      sessionStorage.setItem("gotoHomeEvent1",1);
+            }
+            
           if(sessionStorage.getItem("nextLevelEvent") == 1){
 
             sessionStorage.removeItem("nextLevelEvent");
@@ -11771,7 +11711,6 @@ var __extends =
         sendCustomAnalyticsEvent("game_start", {});
       }
       sessionStorage.setItem("ReplayAnalytics",1);
-
             sendCustomAnalyticsEvent("game_level", {level: level});
             var _this = this;
             var skinAllDatas = StoreConfig_1.default
@@ -13236,6 +13175,21 @@ var __extends =
             });
           };
           Game_ZMDGJ_Win_ZMDGJ_ViewTemplate.prototype.onUpdate = function(){
+            if(sessionStorage.getItem("gotoHomeEvent1") == 1){
+              
+         
+              sessionStorage.removeItem("gotoHomeEvent1");
+                
+                this._bAlive = false;
+                User_1.default.set_ZMDGJ_LeveNum(
+                  User_1.default.get_ZMDGJ_FakerLeveNum()+1
+                );
+                GameMgr_1.default.get_ZMDGJ_Instance().EnterGameScene(function () {
+                   ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
+                    ViewMgr_1.View_ZMDGJ_Def.GameWinView
+                  );
+                });
+            }
             if(sessionStorage.getItem("nextLevelEvent1") == 1){
               
          
@@ -13243,7 +13197,7 @@ var __extends =
               
               this._bAlive = false;
               User_1.default.set_ZMDGJ_LeveNum(
-                User_1.default.get_ZMDGJ_FakerNextLeveNum()
+                User_1.default.get_ZMDGJ_FakerLeveNum()+1
               );
               GameMgr_1.default.get_ZMDGJ_Instance().EnterGameScene(function () {
                  ViewMgr_1.default.ins_ZMDGJ_tance.close_ZMDGJ_View(
